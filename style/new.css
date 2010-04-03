@@ -1,0 +1,362 @@
+/* 
+lylina news aggregator
+
+Style: default
+Description: Default lylina style, based on original lilina default style
+
+Copyright (C) 2004-2005 Panayotis Vryonis
+Copyright (C) 2006 Eric Harmon
+
+lylina is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+lylina is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with lylina; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+
+
+/* Global Elements */
+
+html, body {
+	margin: 0;
+	padding: 31px 0 0 0;
+	border: 0;
+	background: #ffffff;
+	/* hide from IE5 mac \*/
+ 	height: 100%;
+ 	/* end hack */
+	height: auto;
+	width: 100%;
+	}
+html, body, p, ul, input {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	font-weight: normal;
+	}
+img {
+	border: 0;
+	vertical-align: text-bottom;
+	}
+
+#navigation {
+	position: fixed;
+	top: 0px;
+	font-family: Verdana, Geneva, sans-serif;
+	color: #FFF;
+	background-color: #383f91;
+	padding: 2px;
+	font-size: 16px;
+	height: 27px;
+	width: 100%;
+	z-index: 1;
+}
+#navigation img {
+	vertical-align: middle;
+}
+body {
+	margin: 0px;
+	padding: 0px;
+}
+#message {
+	position: relative;
+	top: -22px; 
+	left: 55px;
+	cursor: pointer;
+}
+#login {
+	position: fixed;
+	top: 3px;
+	right: 2px;
+}
+
+/* Feed */
+
+.feed { /* Container for items coming from the same feed */ 
+	/* Add styling if you want consequent items from the same feed to look "grouped" */
+}
+
+h1 { /* Date */
+	margin: 0px 0px 0px 0px;
+	padding: 4px 0 4px 15px;
+	border-top: 1px solid #00005c ;
+	font-size: 13pt;
+	font-weight: bold;
+	color: #fff;
+	background: #aaaaaa;
+	background: #CBDFEB;
+	}
+.item {
+	margin: 0px 0px 0px 0px;
+	font-size: 12pt;
+	border-top: 1px solid #aac ;
+	background-color: #f5f5f5;
+	padding-top: 3px;
+	padding-bottom: 2px;
+	padding-left: 15px;
+}
+
+.item img {
+	vertical-align: middle;
+}
+
+.excerpt img {
+	vertical-align: text-bottom;
+}
+
+.expanded {
+	margin: 0px 0px 0px 0px;
+	font-size: 12pt;
+	border-top: 1px solid #aac ;
+	background-color: #eeeeee;
+	padding-top: 3px;
+	padding-bottom: 2px;
+	padding-left: 15px;
+	}						
+
+.expanded a {
+	vertical-align: baseline;
+}
+
+.selected {
+	padding-left: 9px;
+	border-left-width: 6px;
+	border-left-style: solid;
+	border-left-color: #CCC;
+}
+
+.icon {
+	margin: 0;
+	vertical-align: middle;
+}
+
+.item img, .expanded img {
+	margin: 2px 10px 0 0;
+	}
+
+.bmark { /* Bookmark image */
+	
+	}
+.time { /* Time Posted */
+	margin: 0 4px 0 4px;
+	font-style: italic;
+	color: #999999;
+	}
+.title { /* Title */
+	font-weight: bold;
+	color: #555;
+	text-decoration: none;
+	cursor: pointer;
+	}
+.title:hover {
+	color:#666;
+}
+.source { /* Direct link to weblog post */
+	}
+.source a {
+	margin: 0 0 0 10px;
+	color: #990000;
+	text-decoration: none;
+	}
+.excerpt { /* Excerpted content from feed */
+	margin: 3px 0 4px 60px;
+	font-size: 11pt;
+	width: 90%;
+	display: none;
+	}
+.excerpt p {
+	font-size: 11pt;
+}
+
+.excerpt small {
+	font-size: 9pt;
+}
+.excerpt a {
+	color: #666;
+}
+.integration a {
+	text-decoration: none;
+	color: #666666
+}
+.integration img {
+	margin: 0 0 0 0;
+}
+
+/* Google */
+
+.google {
+	margin: 0 0 0 0 ;
+	padding: 0px;
+	/* background: #ffffff ; */
+
+}
+.google p { 
+	display: block; 
+	margin-bottom: 0 ;
+	margin-top: 0 ;
+	color: #555555 ;
+}
+
+/* del.icio.us */
+.delicious_tags {
+	display: inline ;
+	text-align: right;
+	padding: 0 0 0 10px;
+}
+
+/* Panel */
+
+#panel {
+	position: absolute;
+	top: 20px;
+	right: 2px ;
+	padding: 10px;
+	background: #eeeeee ;
+	color: #6f6f6f;
+	width: 200px;
+	display: block;
+
+}
+/* Sources */
+
+#sources {
+	padding: 4px;
+	color: #6f6f6f;
+	display: block;
+	border-top: 1px #aaa solid;
+	background: #CBDFEB;
+	}
+#sources h3 {
+	display: block;
+	margin: 0 0 10px 0;
+	border-bottom: 1px #CBDFEB dotted;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+	width: 98%;
+	}
+#sources ul {
+	list-style-type: square;
+	margin: 10px;
+	padding: 0px;
+	}
+#sources li {
+	display: inline;
+	padding-left: 1em;
+	padding-bottom: 2px;
+	}
+#sources ul li img {
+	display: inline;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+	}
+#sources a {
+	text-decoration: none;
+	border-bottom: 1px dotted ;
+}
+
+
+
+/* Edit */
+
+.item ul, .expanded ul {
+	list-style: none;
+	margin: 15px 0 0 0;
+	}
+.item li, .expanded li {
+	font-size: 12px;
+	}
+
+.prefs {
+	float:right;
+	width:200px;
+	background-color: #fff;
+	padding:1em;
+	margin:1em;
+}
+
+/* Footer */
+
+#footer {
+	margin: 0px;
+	padding-top: 5px;
+	border-top: 1px #C7D0EB solid;
+	font-size: 10px;
+	text-align: center;
+	width: 100%;
+	}
+
+#main {
+/*	display: block;*/
+	display: none;
+	margin-right: 0px;
+	border-right: 0px #aaa solid;
+}
+
+.feedico {
+	position: relative;
+	float: right;
+}
+
+.update	{
+	margin: 0;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	background-color: #ebb;
+	border: 1px solid #c00;
+	border-width: 1px 0 0 1px;
+	padding: 0 0.5em;
+	font-size: 12pt;
+	color: #CCC;
+	text-align: right;
+}
+
+.update a {
+	text-decoration: none;
+	color: #555;
+}
+
+.read {
+	opacity: 0.60;
+}
+
+#throbber {
+	position: absolute;
+	top: 12px;
+	left: 170px;
+	border-width: 3px;
+	border-color: #CCC;
+	border-style: solid;
+	margin-left: auto;
+	margin-right: auto;
+	width: 350px;
+	text-align: center;
+	font-size: 20px;
+	background: #FFF;
+	padding: 10px;
+}
+
+#throbber img {
+	vertical-align: middle;
+	padding-right: 4px;
+}
+
+.new {
+	background-color: #FFFFCC;
+}
+
+object {
+	display: block;
+	margin-bottom: 5px;
+}
