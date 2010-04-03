@@ -14,7 +14,7 @@
 
 	<script language="JavaScript" type="text/javascript" src="js/jquery-ui-custom.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/jquery.nextALL.js"></script>
-	<script language="JavaScript" type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
+	<script language="JavaScript" type="text/javascript" src="js/jquery.scrollTo.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/new.js"></script>
 	<link rel="stylesheet" type="text/css" href="style/new.css" media="screen" />
 	<link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 480px)" href="style/small-device.css" />
