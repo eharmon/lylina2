@@ -163,7 +163,7 @@ class Fetch {
 			// $potential_match is still defined from when we were in the foreach loop, so here's a nasty trick
 			// Trying this out, thanks to ads feed items change a lot, so we'll only publish an update if the post has at least 5 new characters.
 			} elseif(abs($potential_match['length'] - (strlen($item->get_title() . $item->get_content()))) >= 5) {
-				$this->db->Execute("UPDATE lylina_items SET post_id=?, length=?, title=?, body=? WHERE id=?", array($item_id, strlen($item->get_title() . $item->get_content()), $purifier->purify(strip_tags("*UPDATE*: " . $item->get_title())), $purifier->purify($item->get_content()), $potential_match['id']));
+				$this->db->Execute("UPDATE lylina_items SET post_id=?, length=?, title=?, body=? WHERE id=?", array($item_id, strlen($item->get_title() . $item->get_content()), $purifier->purify(strip_tags($item->get_title())), $purifier->purify($item->get_content()), $potential_match['id']));
 			}
 		}
 	}
