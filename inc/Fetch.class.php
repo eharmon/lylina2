@@ -27,7 +27,10 @@ class Fetch {
 		$purifier_config->set('Cache.SerializerPath', 'cache');
 		// TODO: This feature is very nice, but breaks titles now that we purify them. Titles only need their entities fixed, so we shouldn't really purify them allowing us to turn this back on
 #		$purifier_config->set('AutoFormat.Linkify', true);
-		$purifier_config->set('Filter.YouTube', true);
+#		$purifier_config->set('Filter.YouTube', true);
+		// Allow flash embeds in newer versions of purifier
+		$purifier_config->set('HTML.SafeObject', true);
+		$purifier_config->set('Output.FlashCompat', true);
 		$purifier = new HTMLPurifier($purifier_config);
 
 		$query = 'SELECT * FROM lylina_feeds';

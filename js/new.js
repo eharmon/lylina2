@@ -53,12 +53,16 @@ function clickTitle() {
 function openItem(speed) {
 	if(speed == null)
 		speed = "fast";
+	// Show flash objects, which may have been previously hidden
+	$(".selected object").show();
 	$(".selected").fadeTo(200, 1).find(".excerpt").slideDown(speed);
 }
 
 function closeItem(speed) {
 	if(speed == null)
 		speed = "fast";
+	// Hide flash objects, they overlay in some browsers and break the sliding effect
+	$(".selected object").hide();
 	$(".selected").fadeTo(500, 0.60).effect("highlight", {color: "#FFF"}, 500).find(".excerpt").slideUp(speed);
 }
 
