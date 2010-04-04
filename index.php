@@ -35,14 +35,15 @@ $db->Connect($base_config['hostname'], $base_config['user'], $base_config['pass'
 
 // Handle login
 $auth = new Auth();
-$auth->validate($_POST['pass']);
+if(isset($_POST['pass'])) {
+	$auth->validate($_POST['pass']);
+}
 
 // Handle requests
-$page = $_REQUEST['p'];
-if($page == NULL) {
-	$page = "Main";
+if(isset($_REQUEST['p'])) {
+	$page = ucfirst($_REQUEST['p']);
 } else {
-	$page = ucfirst($page);
+	$page = "Main";
 }
 
 // Load corresponding page Class and excute

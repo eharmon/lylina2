@@ -34,7 +34,7 @@ class Auth {
 
 	function check() {
 		@session_start();
-		if($_SESSION['key'] == sha1($this->config->get('password') . $_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR'] . $this->salt)) {
+		if(isset($_SESSION['key']) && $_SESSION['key'] == sha1($this->config->get('password') . $_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR'] . $this->salt)) {
 			return true;
 		} else {
 			return false;
