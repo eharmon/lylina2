@@ -70,6 +70,7 @@ class Fetch {
 				$feeds_parse[$feeds_count]['icon'] = $feed['favicon_url'];
 		                $feeds_parse[$feeds_count]['cache_path'] = $cache_path;
 				$feeds_parse[$feeds_count]['filesize'] = $filesize;
+				$feeds_parse[$feeds_count]['mod'] = $mod_time;
 				$feeds_count++;
 			}
 		}
