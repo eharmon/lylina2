@@ -59,6 +59,9 @@ class Fetch {
 			if(file_exists($cache_path)) {
 				$mod_time = @filemtime($cache_path);
 				$filesize = @filesize($cache_path);
+			} else {
+				$mod_time = -1;
+				$filesize = 0;
 			}
 			// If our cache is older than 5 minutes, or doesn't exist, fetch new feeds
 			if(time() - $mod_time > 300 || $mod_time == -1) {
