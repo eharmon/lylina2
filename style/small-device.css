@@ -39,10 +39,20 @@ h1 { /* Date */
 .item {
 	font-size: 14pt;
 	-webkit-text-size-adjust: none;
+	padding-left: 10px;
+}
+
+.selected {
+	padding-left: 4px;
 }
 
 .item img {
 	vertical-align: middle;
+	margin: 0;
+}
+
+.source a {
+	margin: 0 0 0 4px;
 }
 
 .expanded {
@@ -56,8 +66,10 @@ h1 { /* Date */
 	vertical-align: text-bottom;
 }
 
-.item img, .expanded img {
+.expanded img {
 	margin: 2px 2px 0 0;
+}
+.expanded img, .item img {
 	max-width: 100%;
 	}
 
