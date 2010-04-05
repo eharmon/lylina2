@@ -1,0 +1,99 @@
+31c31
+< 	padding: 31px 0 0 0;
+---
+> 	/*padding: 31px 0 0 0;*/
+52c52
+< 	position: fixed;
+---
+> /*	position: absolute;*/
+60c60
+< 	width: 100%;
+---
+> /*	width: 100%;*/
+71,72c71,72
+< 	position: relative;
+< 	top: -22px; 
+---
+> 	position: absolute;
+> 	top: 5px;
+77c77,78
+< 	position: fixed;
+---
+> 	display: none;
+> 	/*position: absolute;
+79c80
+< 	right: 2px;
+---
+> 	right: 2px;*/
+92a94
+> 	-webkit-text-size-adjust: none;
+100c102,103
+< 	font-size: 12pt;
+---
+> 	font-size: 14pt;
+> 	-webkit-text-size-adjust: none;
+103,105c106,110
+< 	padding-top: 3px;
+< 	padding-bottom: 2px;
+< 	padding-left: 15px;
+---
+> 	padding-top: 6px;
+> 	padding-bottom: 6px;
+> 	padding-left: 8px;
+> 	padding-right: 4px;
+> 	/*width: 100%;*/
+112,115d116
+< .excerpt img {
+< 	vertical-align: text-bottom;
+< }
+< 
+131c132
+< 	padding-left: 9px;
+---
+> /*	padding-left: 9px;
+134c135
+< 	border-left-color: #CCC;
+---
+> 	border-left-color: #CCC;*/
+143c144,145
+< 	margin: 2px 10px 0 0;
+---
+> 	margin: 2px 2px 0 0;
+> 	max-width: 100%;
+150c152
+< 	margin: 0 4px 0 4px;
+---
+> 	margin: 0 2px 0 2px;
+171c173
+< 	margin: 3px 0 4px 60px;
+---
+> 	margin: 10px 30px 4px 20px;
+173c175
+< 	width: 90%;
+---
+> 	/*width: 90%;*/
+185a188,190
+> .excerpt blockquote {
+> 	margin-left: 13px;
+> }
+308a314
+> 	display: none;
+331d336
+< 	opacity: 0.60;
+355,361c360,367
+< .new {
+< 	background-color: #FFFFCC;
+< }
+< 
+< object {
+< 	display: block;
+< 	margin-bottom: 5px;
+---
+> #new {
+> 	padding: 3px;
+> 	border-top-width: 1px;
+> 	border-top-style: solid;
+> 	border-top-color: #CCC;
+> 	font-size: 13px;
+> 	background-color: #F5F5F5;
+> 	cursor: pointer;

@@ -1,0 +1,72 @@
+/* 
+lylina news aggregator
+
+Style: default
+Description: Default lylina style, based on original lilina default style
+
+Copyright (C) 2004-2005 Panayotis Vryonis
+Copyright (C) 2006 Eric Harmon
+
+lylina is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+lylina is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with lylina; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+
+
+/* Global Elements */
+
+#message {
+	position: absolute;
+	top: 5px;
+}
+
+/* Feed */
+
+h1 { /* Date */
+	-webkit-text-size-adjust: none;
+	}
+.item {
+	font-size: 14pt;
+	-webkit-text-size-adjust: none;
+}
+
+.item img {
+	vertical-align: middle;
+}
+
+.expanded {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 8px;
+	padding-right: 4px;
+	}						
+
+.excerpt img {
+	vertical-align: text-bottom;
+}
+
+.item img, .expanded img {
+	margin: 2px 2px 0 0;
+	max-width: 100%;
+	}
+
+.time { /* Time Posted */
+	margin: 0 2px 0 2px;
+	}
+.excerpt { /* Excerpted content from feed */
+	margin: 10px 30px 4px 20px;
+	}
+.excerpt blockquote {
+	margin-left: 13px;
+}
