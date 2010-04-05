@@ -329,6 +329,7 @@ h1 { /* Date */
 
 .read {
 	opacity: 0.60;
+	filter: alpha(opacity = 60);
 }
 
 #throbber {

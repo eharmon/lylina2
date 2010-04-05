@@ -7,9 +7,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="-1" />
-	<!--[if lt IE 8]>
-	<script language="JavaScript" type="text/javascript" src="js/IE8.js"></script>
-	<![endif]-->
 	<script language="JavaScript" type="text/javascript" src="js/jquery.js"></script>
 
 	<script language="JavaScript" type="text/javascript" src="js/jquery-ui-custom.js"></script>
