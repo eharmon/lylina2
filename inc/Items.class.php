@@ -25,7 +25,6 @@ class Items {
                         if($newest && $item['id'] > $newest) {
                                 $item['new'] = 1;
                         }
-                        print "\n";
                         // Format the date for headers
                         $item['date'] = date('l F j, Y', $item['timestamp']);
                 }

@@ -146,9 +146,7 @@ var title = "lylina rss aggregator";
 $(document).ready(function() {
 	$("#message").html("<img src=\"img/4-1.gif\" />Please wait while lylina loads...");
 	title = document.title;
-	$(".read").fadeTo(0, 0.60);
-	$("#main").show();
-	setTimeout(fetch_feeds, 5000);
+	setTimeout(fetch_feeds, 10000);
 
 	setupElements();
 
@@ -194,6 +192,8 @@ $(document).ready(function() {
 				break;
 		}
 	});
+	// TODO: Fix this, description of functionality is in css
+	//$("#main").show();
 	$("#message").html("Get new items");			
 });
 

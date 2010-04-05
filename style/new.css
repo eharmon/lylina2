@@ -297,8 +297,8 @@ h1 { /* Date */
 	}
 
 #main {
-/*	display: block;*/
-	display: none;
+/*	TODO: Use this to have the content appear after it finishes the initial load, this bugs out occasionally in Chrome */
+/*	display: none;*/
 	margin-right: 0px;
 	border-right: 0px #aaa solid;
 }

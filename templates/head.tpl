@@ -20,9 +20,8 @@
 	<link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 480px)" href="style/small-device.css" />
 	<meta name="viewport" content="width=480" />
 
-	<link rel="stylesheet" type="text/css" href="style/mobile.css" media="handheld" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php/cfcd208495d565ef66e7dff9f98764da.xml" />
+	<!--<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php/cfcd208495d565ef66e7dff9f98764da.xml" />-->
 	<script language="JavaScript" type="text/javascript">
 	<!--
 		var showDetails = false;
