@@ -36,17 +36,19 @@ html, body {
  	/* end hack */
 	height: auto;
 	width: 100%;
-	}
+}
+
 html, body, p, ul, input {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 11px;
 	color: #000000;
 	font-weight: normal;
-	}
+}
+
 img {
 	border: 0;
 	vertical-align: text-bottom;
-	}
+}
 
 #navigation {
 	position: fixed;
@@ -60,19 +62,23 @@ img {
 	width: 100%;
 	z-index: 1;
 }
+
 #navigation img {
 	vertical-align: middle;
 }
+
 body {
 	margin: 0px;
 	padding: 0px;
 }
+
 #message {
 	position: relative;
 	top: -22px; 
 	left: 55px;
 	cursor: pointer;
 }
+
 #login {
 	position: fixed;
 	top: 3px;
@@ -85,7 +91,7 @@ body {
 	/* Add styling if you want consequent items from the same feed to look "grouped" */
 }
 
-h1 { /* Date */
+#main > h1 { /* Date */
 	margin: 0px 0px 0px 0px;
 	padding: 4px 0 4px 15px;
 	border-top: 1px solid #00005c ;
@@ -94,7 +100,8 @@ h1 { /* Date */
 	color: #fff;
 	background: #aaaaaa;
 	background: #CBDFEB;
-	}
+}
+
 .item {
 	margin: 0px 0px 0px 0px;
 	font-size: 12pt;
@@ -121,7 +128,7 @@ h1 { /* Date */
 	padding-top: 3px;
 	padding-bottom: 2px;
 	padding-left: 15px;
-	}						
+}						
 
 .expanded a {
 	vertical-align: baseline;
@@ -141,38 +148,45 @@ h1 { /* Date */
 
 .item img, .expanded img {
 	margin: 2px 10px 0 0;
-	}
+}
 
 .bmark { /* Bookmark image */
 	
-	}
+}
+
 .time { /* Time Posted */
 	margin: 0 4px 0 4px;
 	font-style: italic;
 	color: #999999;
-	}
+}
+
 .title { /* Title */
 	font-weight: bold;
 	color: #555;
 	text-decoration: none;
 	cursor: pointer;
-	}
+}
+
 .title:hover {
 	color:#666;
 }
+
 .source { /* Direct link to weblog post */
-	}
+}
+
 .source a {
 	margin: 0 0 0 10px;
 	color: #990000;
 	text-decoration: none;
-	}
+}
+
 .excerpt { /* Excerpted content from feed */
 	margin: 3px 0 4px 60px;
 	font-size: 11pt;
 	width: 90%;
 	display: none;
-	}
+}
+
 .excerpt p {
 	font-size: 11pt;
 }
@@ -180,13 +194,16 @@ h1 { /* Date */
 .excerpt small {
 	font-size: 9pt;
 }
+
 .excerpt a {
 	color: #666;
 }
+
 .integration a {
 	text-decoration: none;
 	color: #666666
 }
+
 .integration img {
 	margin: 0 0 0 0;
 }
@@ -197,8 +214,8 @@ h1 { /* Date */
 	margin: 0 0 0 0 ;
 	padding: 0px;
 	/* background: #ffffff ; */
-
 }
+
 .google p { 
 	display: block; 
 	margin-bottom: 0 ;
@@ -224,8 +241,8 @@ h1 { /* Date */
 	color: #6f6f6f;
 	width: 200px;
 	display: block;
-
 }
+
 /* Sources */
 
 #sources {
@@ -234,7 +251,8 @@ h1 { /* Date */
 	display: block;
 	border-top: 1px #aaa solid;
 	background: #CBDFEB;
-	}
+}
+
 #sources h3 {
 	display: block;
 	margin: 0 0 10px 0;
@@ -243,39 +261,42 @@ h1 { /* Date */
 	font-weight: bold;
 	text-align: center;
 	width: 98%;
-	}
+}
+
 #sources ul {
 	list-style-type: square;
 	margin: 10px;
 	padding: 0px;
-	}
+}
+
 #sources li {
 	display: inline;
 	padding-left: 1em;
 	padding-bottom: 2px;
-	}
+}
+
 #sources ul li img {
 	display: inline;
 	height: 16px;
 	width: 16px;
 	vertical-align: text-bottom;
-	}
+}
+
 #sources a {
 	text-decoration: none;
 	border-bottom: 1px dotted ;
 }
-
-
 
 /* Edit */
 
 .item ul, .expanded ul {
 	list-style: none;
 	margin: 15px 0 0 0;
-	}
+}
+
 .item li, .expanded li {
 	font-size: 12px;
-	}
+}
 
 .prefs {
 	float:right;
@@ -294,7 +315,7 @@ h1 { /* Date */
 	font-size: 10px;
 	text-align: center;
 	width: 100%;
-	}
+}
 
 #main {
 /*	TODO: Use this to have the content appear after it finishes the initial load, this bugs out occasionally in Chrome */
