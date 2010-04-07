@@ -1,18 +1,3 @@
-jQuery.fn.myBlindToggle = function(speed, easing, callback) {
-	var h = this.height() + parseInt(this.css('paddingTop')) + parseInt(this.css('paddingBottom'));
-	alert("I am here.");
-	return this.animate({marginTop: parseInt(this.css('marginTop')) <0 ? 0 : -h}, speed, easing, callback);  
-};
-
-jQuery.fn.slideFadeToggle = function(speed, easing, callback) {
-	return this.animate({opacity: 'toggle', height: 'toggle'}, speed, easing, callback);
-};
-
-jQuery.fn.autoscroll = function(selector) {
-	$('html,body').animate(
-	{scrollTop: $(selector).offset().top}, 500);
-}
-
 function moveNext() { 
 	// Go to next item
 	var $old = $(".selected");
@@ -41,7 +26,6 @@ function movePrevious() {
 }
 
 function scrollSelected() {
-	// Currently hardcoded offset, should calculate on the fly for custom CSS designs!
 	calculatedOffset = -1 * $("#navigation").outerHeight();
 	$.scrollTo(".selected", "fast", {offset: calculatedOffset});
 }
@@ -55,6 +39,10 @@ function openItem(speed) {
 		speed = "fast";
 	// Show flash objects, which may have been previously hidden
 	$(".selected object").show();
+	// Unmask images
+	$(".selected img").each(function() {
+		$(this).attr("src", $(this).attr("original"));
+	});
 	$(".selected").fadeTo(200, 1).find(".excerpt").slideDown(speed);
 }
 
@@ -85,6 +73,11 @@ var scrolled = 0;
 var newest_id = 0;
 
 function setupElements() {
+	// Prevent images from loading until the JS runs, based on jQuery LazyLoad by Mike Tuupola
+	$(".excerpt img").each(function() {
+		$(this).attr("original", $(this).attr("src"));
+		$(this).attr("src", "img/blank.png");
+	});
 	// Handle clicks in items (doesn't include middle click)	
 	$(".item a").click(function() {
 		window.open(this.href);
@@ -138,6 +131,15 @@ function setupElements() {
 		if(parseInt($(this).attr("id").split(":")[1]) > newest_id) {
 			newest_id = parseInt($(this).attr("id").split(":")[1]);
 		}
+	});
+
+	// Now that we've temporarily killed all the images on the page for loading speed, start loading them in the background
+	/*setTimeout(loadImages, 5000);*/
+}
+
+function loadImages() {
+	$(".excerpt img").each(function() {
+		$(this).attr("src", $(this).attr("original"));
 	});
 }
 
@@ -193,7 +195,7 @@ $(document).ready(function() {
 		}
 	});
 	// TODO: Fix this, description of functionality is in css
-	//$("#main").show();
+	$("#main").show();
 	$("#message").html("Get new items");			
 });
 

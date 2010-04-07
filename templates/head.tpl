@@ -7,14 +7,16 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="-1" />
+
+	<link rel="stylesheet" type="text/css" href="style/new.css" media="screen" />
+	<link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 480px)" href="style/small-device.css" />
+
 	<script language="JavaScript" type="text/javascript" src="js/jquery.js"></script>
 
 	<script language="JavaScript" type="text/javascript" src="js/jquery-ui-custom.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/jquery.nextALL.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/jquery.scrollTo.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/new.js"></script>
-	<link rel="stylesheet" type="text/css" href="style/new.css" media="screen" />
-	<link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 480px)" href="style/small-device.css" />
 	<meta name="viewport" content="width=480" />
 
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />

@@ -319,7 +319,7 @@ body {
 
 #main {
 /*	TODO: Use this to have the content appear after it finishes the initial load, this bugs out occasionally in Chrome */
-/*	display: none;*/
+	display: none;
 	margin-right: 0px;
 	border-right: 0px #aaa solid;
 }
