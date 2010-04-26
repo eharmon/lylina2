@@ -113,7 +113,7 @@ class Fetch {
 				}
 				// TODO: Favicon handling isn't real pretty
 				// If we have a new favicon URL, no cache, or stale cache, update cache
-				if($pie->get_favicon() != $info['icon'] || !file_exists('cache/' . md5($info['url']) . '.ico') || time() - filemtime('cache/' . md5($info['url'] . '.ico') > 7*24*60*60)) {
+				if(!file_exists('cache/' . md5($info['url']) . '.ico') || time() - filemtime('cache/' . md5($info['url']) . '.ico') > 7*24*60*60 || $pie->get_favicon() != $info['icon']) {
 					$this->update_favicon($info, $pie);
 				}
 				// If we can successfully parse the file, format them
@@ -177,8 +177,8 @@ class Fetch {
 
 	private function update_favicon($info, $pie) {
 		// Update URL
-		$this->db->Execute('UPDATE lylina_items SET favicon_url=? WHERE id=?', array($pie->get_favicon(), $info['id']));
-		
+		$this->db->Execute('UPDATE lylina_feeds SET favicon_url=? WHERE id=?', array($pie->get_favicon(), $info['id']));
+	
 		// Empty icon if needed
 		$blank_icon = base64_decode(
 			'AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAQAEAAAAAAAAAAAAAAAAA' .
