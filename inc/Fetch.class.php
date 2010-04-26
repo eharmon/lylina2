@@ -105,7 +105,7 @@ class Fetch {
 			$data = $feeds_data[$n];
 			$info = $feeds_parse[$n];
 			if($data['data'] != NULL && filesize($info['cache_path']) != $info['filesize']) {
-				$pie->set_feed_url($info['url']);
+				$pie->set_feed_url($info['cache_path']);
 				$pie->init();
 				// If SimplePie finds a new RSS URL, let's update our cache
 				if($pie->feed_url != $info['url']) {
