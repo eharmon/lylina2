@@ -70,7 +70,7 @@ function showRead(element) {
 
 var biggest = 0;
 var scrolled = 0;
-var newest_id = 0;
+var newest_id = 1;
 
 function setupElements() {
 	// Prevent images from loading until the JS runs, based on jQuery LazyLoad by Mike Tuupola
