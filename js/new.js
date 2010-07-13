@@ -1,27 +1,27 @@
 function moveNext() { 
 	// Go to next item
-	var $old = $(".selected");
-	if($old.length == 0 || $old.nextALL(".item").length == 0) {
-		$old.removeClass("selected");
-		$old = $(".item:first");
-		$old.addClass("selected");
+	var old = $(".selected");
+	if(old.length == 0 || old.nextALL(".item").length == 0) {
+		old.removeClass("selected");
+		old = $(".item:first");
+		old.addClass("selected");
 	} else {
 		// This code is really bad, should find a better way
-		$old.nextALL(".item:first").addClass("selected");
-		$old.removeClass("selected");
+		old.nextALL(".item:first").addClass("selected");
+		old.removeClass("selected");
 	}
 }
 
 function movePrevious() {
 	// Go to previous item
-	var $old = $(".selected");
-	if($old.length == 0 || $old.prevALL(".item").length == 0) {
-		$old.removeClass("selected");
-		$old = $(".item:last");
-		$old.addClass("selected");
+	var old = $(".selected");
+	if(old.length == 0 || old.prevALL(".item").length == 0) {
+		old.removeClass("selected");
+		old = $(".item:last");
+		old.addClass("selected");
 	} else {
-		$old.prevALL(".item:first").addClass("selected");
-		$old.removeClass("selected");
+		old.prevALL(".item:first").addClass("selected");
+		old.removeClass("selected");
 	}
 }
 
