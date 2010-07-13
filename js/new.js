@@ -78,54 +78,7 @@ function setupElements() {
 		$(this).attr("original", $(this).attr("src"));
 		$(this).attr("src", "img/blank.png");
 	});
-	// Handle clicks in items (doesn't include middle click)	
-	$(".item a").click(function() {
-		window.open(this.href);
-		return false;
-	});
-	// Handle all clicks on source links (including middle click)
-	$(".source a").mouseup(function() {
-	//	window.open(this.href);
-		if(!$(this).parents().find(".excerpt").is(':visible'))
-			$(this).parent().parent().fadeTo(500, 0.60);
-		$(".selected").removeClass("selected");
-		$(this).parent().parent().addClass("selected");
-		$(this).parent().parent().removeClass("new");
-		markRead($(this).parent().parent().attr("id").split(":")[1]);
-	//	return false;
-	});
-	$(".title").click(function() {
-		$(".selected").removeClass("selected");
-		$(this).parent().addClass("selected");
-		$(this).parent().removeClass("new");
-		if($(this).parent().find(".excerpt").is(':visible'))
-			closeItem();
-		else {
-			openItem();
-			markRead($(this).parent().attr("id").split(":")[1]);
-		}
-	});
-	$("#message").click(function() {
-		if(fetch) { // This will prevent clicking on the update message when lylina is already updating
-			fetch = 0; // Also disables fetching
-			$("#main").slideUp("slow");
-			$("#message").html("<img src=\"img/4-1.gif\" />Please wait while lylina updates...");
-			$("#main").load(
-				"index.php",
-				"p=Get_Items&newest=" + newest_id,
-				function(responseText, textStatus, XMLHttpRequest) {
-					setupElements();
-					$("#main").slideDown("500");
-					$("#message").html("Get new items");
-					document.title = title;
-					new_items = 0;
-					fetch = 1;
-					if(textStatus != "success")
-						alert("Update fail: " . textStatus);
-				}
-			);
-		}
-	});
+
 	var old_newest_id = newest_id;
 	$(".item").each(function() {
 		if(parseInt($(this).attr("id").split(":")[1]) > newest_id) {
@@ -194,6 +147,57 @@ $(document).ready(function() {
 				break;
 		}
 	});
+
+	// Handle clicks in items (doesn't include middle click)	
+	$(".item a").live('click', function() {
+		window.open(this.href);
+		return false;
+	});
+	// Handle all clicks on source links (including middle click)
+	$(".source a").live('mouseup', function() {
+	//	window.open(this.href);
+		if(!$(this).parents().find(".excerpt").is(':visible'))
+			$(this).parent().parent().fadeTo(500, 0.60);
+		$(".selected").removeClass("selected");
+		$(this).parent().parent().addClass("selected");
+		$(this).parent().parent().removeClass("new");
+		markRead($(this).parent().parent().attr("id").split(":")[1]);
+	//	return false;
+	});
+	$(".title").live('click', function() {
+		$(".selected").removeClass("selected");
+		$(this).parent().addClass("selected");
+		$(this).parent().removeClass("new");
+		if($(this).parent().find(".excerpt").is(':visible'))
+			closeItem();
+		else {
+			openItem();
+			markRead($(this).parent().attr("id").split(":")[1]);
+		}
+	});
+	$("#message").live('click', function() {
+		if(fetch) { // This will prevent clicking on the update message when lylina is already updating
+			fetch = 0; // Also disables fetching
+			$("#main").slideUp("slow");
+			$("#message").html("<img src=\"img/4-1.gif\" />Please wait while lylina updates...");
+			$("#main").load(
+				"index.php",
+				"p=Get_Items&newest=" + newest_id,
+				function(responseText, textStatus, XMLHttpRequest) {
+					setupElements();
+					$("#main").slideDown("500");
+					$("#message").html("Get new items");
+					document.title = title;
+					new_items = 0;
+					fetch = 1;
+					if(textStatus != "success")
+						alert("Update fail: " . textStatus);
+				}
+			);
+		}
+	});
+
+
 	// TODO: Fix this, description of functionality is in css
 	$("#main").show();
 	$("#message").html("Get new items");			
