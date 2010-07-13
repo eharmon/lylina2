@@ -79,6 +79,11 @@ function setupElements() {
 		$(this).attr("src", "img/blank.png");
 	});
 
+	// TODO: Do this on the server side?
+	$(".excerpt object").each(function() {
+		$(this).append("<param name='wmode' value='transparent'>");
+	});
+
 	var old_newest_id = newest_id;
 	$(".item").each(function() {
 		if(parseInt($(this).attr("id").split(":")[1]) > newest_id) {
