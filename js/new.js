@@ -40,8 +40,8 @@ function openItem(speed) {
 	// Show flash objects, which may have been previously hidden
 	$(".selected object").show();
 	// Unmask images
-	$(".selected img").each(function() {
-		$(this).attr("src", $(this).attr("original"));
+	$(".selected .excerpt img").each(function() {
+		$(this).attr("src", $(this).data("original"));
 	});
 	$(".selected").fadeTo(200, 1).find(".excerpt").slideDown(speed);
 }
@@ -75,11 +75,11 @@ var newest_id = 1;
 function setupElements() {
 	// Prevent images from loading until the JS runs, based on jQuery LazyLoad by Mike Tuupola
 	$(".excerpt img").each(function() {
-		$(this).attr("original", $(this).attr("src"));
+		$(this).data("original", $(this).attr("src"));
 		$(this).attr("src", "img/blank.png");
 	});
 
-	// TODO: Do this on the server side?
+	// TODO: Do this on the server side? It is display tweaking however.
 	$(".excerpt object").each(function() {
 		$(this).append("<param name='wmode' value='transparent'>");
 	});
