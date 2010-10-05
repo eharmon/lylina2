@@ -710,6 +710,39 @@ div {}
         );
     }
 
+    function test_tokenizeHTML_ignoreIECondComment() {
+        $this->assertTokenization(
+            '<!--[if IE]>foo<a>bar<!-- baz --><![endif]-->',
+            array()
+        );
+    }
+
+    function test_tokenizeHTML_removeProcessingInstruction() {
+        $this->config->set('Core.RemoveProcessingInstructions', true);
+        $this->assertTokenization(
+            '<?xml blah blah ?>',
+            array()
+        );
+    }
+
+   function test_tokenizeHTML_removeNewline() {
+        $this->config->set('Core.NormalizeNewlines', true);
+        $input = "plain\rtext\r\n";
+        $expect = array(
+            new HTMLPurifier_Token_Text("plain\ntext\n")
+        );
+   }
+
+   function test_tokenizeHTML_noRemoveNewline() {
+        $this->config->set('Core.NormalizeNewlines', false);
+        $input = "plain\rtext\r\n";
+        $expect = array(
+            new HTMLPurifier_Token_Text("plain\rtext\r\n")
+        );
+        $this->assertTokenization($input, $expect);
+     }
+
+
     /*
 
     function test_tokenizeHTML_() {

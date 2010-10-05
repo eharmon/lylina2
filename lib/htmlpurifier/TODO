@@ -20,11 +20,14 @@ Things to do as soon as possible:
    debugging
  - Allowed/Allowed* have strange interactions when both set
  - Transform lone embeds into object tags
+ - Deprecated config options that emit warnings when you set them (with'
+   a way of muting the warning if you really want to)
+ - Make HTML.Trusted work with Output.FlashCompat
 
 FUTURE VERSIONS
 ---------------
 
-4.2 release [OMG CONFIG PONIES]
+4.3 release [OMG CONFIG PONIES]
  ! Fix Printer. It's from the old days when we didn't have decent XML classes
  ! Factor demo.php into a set of Printer classes, and then create a stub
    file for users here (inside the actual HTML Purifier library)

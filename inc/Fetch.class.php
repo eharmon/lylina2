@@ -31,6 +31,7 @@ class Fetch {
 		// Allow flash embeds in newer versions of purifier
 		$purifier_config->set('HTML.SafeObject', true);
 		$purifier_config->set('Output.FlashCompat', true);
+		$purifier_config->set('HTML.FlashAllowFullScreen', true);
 		$purifier = new HTMLPurifier($purifier_config);
 
 		$query = 'SELECT * FROM lylina_feeds';
