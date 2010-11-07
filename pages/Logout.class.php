@@ -6,6 +6,7 @@
 // Copyright (C) 2006-2010 Eric Harmon
 
 // Handle logout
+// TODO: Merge into admin page?
 class Logout {
 	// Our handle on the DB
 	private $db;

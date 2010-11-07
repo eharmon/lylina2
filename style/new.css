@@ -81,8 +81,13 @@ body {
 
 #login {
 	position: fixed;
-	top: 3px;
-	right: 2px;
+	top: 0.3em;
+	right: 0.3em;
+}
+
+#login a {
+	color: #FFF;
+	font-size: 9pt;
 }
 
 /* Feed */
@@ -304,6 +309,26 @@ body {
 	background-color: #fff;
 	padding:1em;
 	margin:1em;
+}
+
+/* Incidental Pages */
+
+#container {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	font-size: 10pt;
+}
+
+.propertylist {
+	padding: 0;
+	list-style-type: none;
+	border-bottom: 1px solid #CCC;
+	background-color: #EEE;
+}
+
+.propertylist li {
+	padding: 0.5em 0 0.5em 0.5em;
+	border-top: 1px solid #CCC;
 }
 
 /* Footer */

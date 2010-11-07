@@ -23,26 +23,26 @@ class Admin {
 		$render = new Render($this->db);
 
 		// Check our authorization
-		//$auth = new Auth($this->db);
+		$auth = new Auth($this->db);
 		// If we've been posted a password and it's wrong
-		//if(isset($_POST['pass']) && !$auth->validate($_POST['pass'])) {
-		//	$render->assign('reason', 'Bad password.');
-		//	$render->display('auth_fail.tpl');
-		//	return;
-		//}
+		if(isset($_POST['pass']) && !$auth->validate($_POST['pass'])) {
+			$render->assign('reason', 'Bad password.');
+			$render->display('auth_fail.tpl');
+			return;
+		}
 		// Otherwise we need to check to see if the user has already logged in or not
 		if(!$this->auth->check()) {
 			$render->assign('reason', 'No login.');
 			$render->display('auth_fail.tpl');
 			return;
 		}
-		if(empty($_GET['op'])) {
+		if(empty($_REQUEST['op'])) {
 			$op = 'main';
 		} else {
-			$op = $_GET['op'];
+			$op = $_REQUEST['op'];
 		}
-		if(function_exists('$this->' . $op)) {
-			$this->$op();
+		if(method_exists($this, $op)) {
+			$this->$op($render);
 		} else {
 			$render->assign('reason', 'Bad operation.');
 			$render->display('auth_fail.tpl');
@@ -50,7 +50,14 @@ class Admin {
 		}
 	}
 
-	function main() {
-		echo "test";
+	function login($render) {
+		header('Location: index.php');
+	}
+
+	function main($render) {
+		$feeds = $this->db->GetAll('SELECT * FROM lylina_feeds ORDER BY name');
+		$render->assign('feeds', $feeds);
+		$render->assign('title', 'Preferences');
+		$render->display('preferences.tpl');
 	}
 }

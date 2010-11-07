@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head profile="http://gmpg.org/xfn/1">
-	<title>lylina rss aggregator</title>
+	<title>lylina rss aggregator {{if $title}} - {{$title}} {{/if}}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="-1" />
@@ -29,13 +29,19 @@
 	</script>
 </head>
 <body>
-<div id="navigation"><a href="index.php"><img src="img/mini.png" width="39" height="25" alt="lylina" id="logo" /></a> <img src="img/div.png" 
-width="1" height="20" alt="" /><div id="message"><img src="img/4-1.gif" alt="..." />Please wait while lylina updates...</div>
+<div id="navigation"><a href="index.php"><img src="img/mini.png" width="39" height="25" alt="lylina" id="logo" /></a>
+<img src="img/div.png" width="1" height="20" alt="" />
+{{if !$title}}
+	<div id="message"><img src="img/4-1.gif" alt="..." />Please wait while lylina updates...</div>
+{{else}}
+	{{$title}}
+{{/if}}
 
 {{if !$auth}}
 <div id="login">
 	<form method="post" action="index.php" class="login">
 	<input type="hidden" name="p" value="admin" />
+	<input type="hidden" name="op" value="login" />
 	<img src="img/password-trans.png" alt="password" /> <input type="password" name="pass" />
 	<input type="submit" value="Login" />
 	</form>
