@@ -114,7 +114,9 @@ function loadImages() {
 var title = "lylina rss aggregator";
 
 $(document).ready(function() {
-	$("#message").html("<img src=\"img/4-1.gif\" />Please wait while lylina loads...");
+	if(show_updates) {
+		$("#message").html("<img src=\"img/4-1.gif\" />Please wait while lylina loads...");
+	}
 	title = document.title;
 	setTimeout(fetch_feeds, 10000);
 
@@ -217,7 +219,9 @@ $(document).ready(function() {
 
 	// TODO: Fix this, description of functionality is in css
 	$("#main").show();
-	$("#message").html("Get new items");			
+	if(show_updates) {
+		$("#message").html("Get new items");
+	}
 });
 
 var new_items = 0;
@@ -235,7 +239,7 @@ function fetch_feeds() {
 				if(fetch) {
 					var old_items = new_items;
 					new_items = parseInt(msg);
-					if(new_items > 0) {
+					if(new_items > 0 && show_updates) {
 						$("#message").html('<b>Get new items (' + new_items + ')</b>');
 						document.title = "[" + new_items + "] " + title;
 						if(new_items != old_items) {

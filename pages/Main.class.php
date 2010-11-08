@@ -15,6 +15,7 @@ class Main {
 
 	function render() {
 		$render = new Render();
+		$render->assign('update', true);
 		$render->display('head.tpl');
 
 		$items = new Items($this->db);

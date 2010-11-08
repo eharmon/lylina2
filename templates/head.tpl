@@ -27,6 +27,11 @@
 	<!--
 		var showDetails = false;
 		var markID = '';
+		{{if $update}}
+		var show_updates = true;
+		{{else}}
+		var show_updates = false;
+		{{/if}}
 	//-->
 	</script>
 </head>
