@@ -26,9 +26,27 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* Global Elements */
 
+#navigation {
+	height: 50px;
+}
+
 #message {
-	position: absolute;
-	top: 5px;
+/*	position: absolute;*/
+	font-size: 9pt;
+}
+
+html, body {
+	/* iPhone applies some kind of scaling here, counter intuitively we need to set the padding smaller to make it larger */
+	/* TODO: Use ems and hope iPhone is less annoying about it then */
+	padding: 27px 0 0 0;
+}
+
+#login {
+	top: 27px;
+}
+
+#main {
+	top: 50px;
 }
 
 /* Feed */

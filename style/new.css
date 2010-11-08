@@ -115,6 +115,8 @@ body {
 	padding-top: 3px;
 	padding-bottom: 2px;
 	padding-left: 15px;
+	/* Make sure we clear floats if the item floats some content around */
+	clear: both;
 }
 
 .item img {
@@ -329,11 +331,13 @@ body {
 .propertylist li {
 	padding: 0.5em 0 0.5em 0.5em;
 	border-top: 1px solid #CCC;
+	clear: both;
 }
 
 .propertylist .controls {
 	float: right;
 	padding-right: 0.5em;
+	padding-bottom: 0.3em;
 }
 
 .propertylist li:hover {
