@@ -331,6 +331,11 @@ body {
 	border-top: 1px solid #CCC;
 }
 
+.propertylist .controls {
+	float: right;
+	padding-right: 0.5em;
+}
+
 /* Footer */
 
 #footer {

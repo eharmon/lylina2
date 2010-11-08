@@ -55,9 +55,32 @@ class Admin {
 	}
 
 	function main($render) {
-		$feeds = $this->db->GetAll('SELECT * FROM lylina_feeds ORDER BY name');
+		$feeds = $this->db->GetAll('SELECT *, (SELECT COUNT(*) FROM lylina_items WHERE lylina_items.feed_id = lylina_feeds.id) AS itemcount FROM lylina_feeds ORDER BY name');
 		$render->assign('feeds', $feeds);
 		$render->assign('title', 'Preferences');
 		$render->display('preferences.tpl');
+	}
+
+	function add($render) {
+		$url = $_REQUEST['url'];
+		require_once('lib/simplepie/simplepie.inc');
+		$pie = new SimplePie();
+		$pie->enable_cache(false);
+		$pie->set_autodiscovery_level(SIMPLEPIE_LOCATOR_ALL);
+		$pie->set_feed_url($url);
+		$pie->init();
+		$feed_url = $pie->feed_url;
+		$render->assign('url', $url);
+		$render->assign('feed_url', $feed_url);
+		$render->assign('items', array_slice($pie->get_items(), 0, 5));
+		$render->assign('feed_title', $pie->get_title());
+		$render->assign('title', 'Adding Feed');
+		$render->display('feed_search.tpl');
+	}
+	function doadd($render) {
+		$feed = $_REQUEST['feedurl'];
+		$title = $_REQUEST['feedtitle'];
+		$this->db->EXECUTE('INSERT IGNORE INTO lylina_feeds (url, name) VALUES(?, ?)', array($feed, $title));
+		echo "Feed added. I love you.";
 	}
 }
