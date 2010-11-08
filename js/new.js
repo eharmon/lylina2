@@ -1,3 +1,10 @@
+// Extend jQuery to check for focus, as per http://stackoverflow.com/questions/967096/using-jquery-to-test-if-an-input-has-focus
+jQuery.extend(jQuery.expr[':'], {
+    focus: function(element) { 
+        return element == document.activeElement; 
+    }
+});
+
 function moveNext() { 
 	// Go to next item
 	var old = $(".selected");
@@ -114,45 +121,47 @@ $(document).ready(function() {
 	setupElements();
 
 	$(window).keydown(function(event) {
-		switch(event.keyCode) {
-			// N
-			case 78:
-				moveNext();
-				scrollSelected();
-				break;
-			// J
-			case 74:
-				if($(".selected").find(".excerpt").is(':visible'))
-					closeItem(0);
-				moveNext();
-				openItem(0);
-				markRead($(".selected").attr("id"));
-				scrollSelected();
-				break;
-			// P
-			case 80:
-				movePrevious();
-				scrollSelected();
-				break;
-			// K
-			case 75:
-				if($(".selected").find(".excerpt").is(':visible'))
-					closeItem();
-				movePrevious();
-				openItem();
-				markRead($(".selected").attr("id").split(":")[0]);
-				scrollSelected();
-				break;
-			// O, Enter
-			case 79:
-			case 13:
-				clickTitle();
-				break;
-			// V
-			case 86:
-				$(".selected").find(".source a").click();
-				$(".selected").find(".source a").mouseup();
-				break;
+		if(!$("input").is(":focus")) {
+			switch(event.keyCode) {
+				// N
+				case 78:
+					moveNext();
+					scrollSelected();
+					break;
+				// J
+				case 74:
+					if($(".selected").find(".excerpt").is(':visible'))
+						closeItem(0);
+					moveNext();
+					openItem(0);
+					markRead($(".selected").attr("id"));
+					scrollSelected();
+					break;
+				// P
+				case 80:
+					movePrevious();
+					scrollSelected();
+					break;
+				// K
+				case 75:
+					if($(".selected").find(".excerpt").is(':visible'))
+						closeItem();
+					movePrevious();
+					openItem();
+					markRead($(".selected").attr("id").split(":")[0]);
+					scrollSelected();
+					break;
+				// O, Enter
+				case 79:
+				case 13:
+					clickTitle();
+					break;
+				// V
+				case 86:
+					$(".selected").find(".source a").click();
+					$(".selected").find(".source a").mouseup();
+					break;
+			}
 		}
 	});
 

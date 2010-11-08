@@ -3,15 +3,15 @@
 {{if $items}}
 Here are some headlines we found
 {{/if}}
-{{if $feed_title}}
-at {{$feed_title}}:<br /><br />
+{{if $feed->get_title()}}
+at {{$feed->get_title()}}:<br /><br />
 {{elseif $items}}
 :<br /><br />
 {{/if}}
 {{if $items}}
 <ul class="propertylist">
 {{foreach from=$items item=item}}
-	<li>{{$item->get_title()}}</li>
+	<li><img src="{{$feed->get_favicon()}}" /> {{$item->get_title()}}</li>
 {{/foreach}}
 </ul>
 <form method="post" action="admin?op=doadd">

@@ -73,7 +73,7 @@ class Admin {
 		$render->assign('url', $url);
 		$render->assign('feed_url', $feed_url);
 		$render->assign('items', array_slice($pie->get_items(), 0, 5));
-		$render->assign('feed_title', $pie->get_title());
+		$render->assign('feed', $pie);
 		$render->assign('title', 'Adding Feed');
 		$render->display('feed_search.tpl');
 	}

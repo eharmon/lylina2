@@ -336,6 +336,10 @@ body {
 	padding-right: 0.5em;
 }
 
+.propertylist li:hover {
+	background-color: #F7F7F7;
+}
+
 /* Footer */
 
 #footer {
