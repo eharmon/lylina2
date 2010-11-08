@@ -102,4 +102,19 @@ class Admin {
 			$render->display('confirm_delete.tpl');
 		}
 	}
+
+	function rename($render) {
+		$confirm = $_REQUEST['confirm'];
+		$name = $_REQUEST['name'];
+		$id = $_REQUEST['id'];
+		if($confirm) {
+			$this->db->Execute('UPDATE lylina_feeds SET name=? WHERE id=?', array($name, $id));
+			header('Location: admin');
+		} else {
+			$feed = $this->db->GetAll('SELECT * FROM lylina_feeds WHERE id=?', array($id));
+			$render->assign('feed', $feed[0]);
+			$render->assign('title', 'Rename Feed');
+			$render->display('rename_feed.tpl');
+		}
+	}
 }
