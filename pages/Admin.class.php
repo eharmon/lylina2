@@ -81,6 +81,20 @@ class Admin {
 		$feed = $_REQUEST['feedurl'];
 		$title = $_REQUEST['feedtitle'];
 		$this->db->EXECUTE('INSERT IGNORE INTO lylina_feeds (url, name) VALUES(?, ?)', array($feed, $title));
-		echo "Feed added. I love you.";
+		header('Location: admin');
+	}
+
+	function delete($render) {
+		$confirm = $_REQUEST['confirm'];
+		$id = $_REQUEST['id'];
+		if($confirm) {
+			$this->db->Execute('DELETE lylina_feeds, lylina_items FROM lylina_feeds LEFT JOIN lylina_items ON lylina_feeds.id = lylina_items.feed_id WHERE lylina_feeds.id = ?', array($id));
+			header('Location: admin');
+		} else {
+			$feed = $this->db->GetAll('SELECT *, (SELECT COUNT(*) FROM lylina_items WHERE lylina_items.feed_id = lylina_feeds.id) AS itemcount FROM lylina_feeds WHERE lylina_feeds.id = ?', array($_REQUEST['id']));
+			$render->assign('feed', $feed[0]);
+			$render->assign('title', 'Confirm Delete');
+			$render->display('confirm_delete.tpl');
+		}
 	}
 }
