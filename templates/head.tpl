@@ -17,7 +17,9 @@
 	<script language="JavaScript" type="text/javascript" src="js/jquery.nextALL.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/jquery.scrollTo.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/new.js"></script>
-	<meta name="viewport" content="width=480" />
+
+	<meta name="viewport" content="width=device-width, height=device-height" />
+	<meta name="HandheldFriendly" content="true" /> 
 
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<!--<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php/cfcd208495d565ef66e7dff9f98764da.xml" />-->

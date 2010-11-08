@@ -81,6 +81,11 @@ class Admin {
 		$feed = $_REQUEST['feedurl'];
 		$title = $_REQUEST['feedtitle'];
 		$this->db->EXECUTE('INSERT IGNORE INTO lylina_feeds (url, name) VALUES(?, ?)', array($feed, $title));
+		
+		// Immediately fetch so the feed items appear
+		$fetch = new Fetch($this->db);
+		$fetch->get();
+
 		header('Location: admin');
 	}
 
