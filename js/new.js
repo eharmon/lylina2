@@ -91,7 +91,10 @@ function setupElements() {
 
 	// TODO: Do this on the server side? It is display tweaking however.
 	$(".excerpt object").each(function() {
-		$(this).append("<param name='wmode' value='transparent'>");
+		// Don't do this for IE, it doesn't end up with a proper object so you can't append to it
+		if(!$.browser.msie) {
+			$(this).append("<param name='wmode' value='transparent'>");
+		}
 	});
 
 	var old_newest_id = newest_id;
