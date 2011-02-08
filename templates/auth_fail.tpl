@@ -1,3 +1,3 @@
 {{include file='head.tpl'}}
-{{$reason}}
+<p>{{$reason}}</p>
 {{include file='foot.tpl'}}

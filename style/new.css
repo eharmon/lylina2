@@ -107,6 +107,12 @@ body {
 	background: #CBDFEB;
 }
 
+#main > p {
+	padding: 0.2em;
+	margin-left: 0.5em;
+	font-size: 11pt;
+}
+
 .item {
 	margin: 0;
 	font-size: 12pt;

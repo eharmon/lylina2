@@ -1,3 +1,4 @@
+{{if $items}}
 {{foreach from=$items item=item name=items}}
 {{if $smarty.foreach.items.index == 0 || $items[$smarty.foreach.items.index - 1].date != $item.date}}<h1>{{$item.date}}</h1>{{/if}}
 <div class="feed">
@@ -14,3 +15,6 @@
 {{$item.body}}
 </div></div></div>
 {{/foreach}}
+{{else}}
+<p>No items were found, perhaps you haven't opened lylina in awhile? Try <a href="#" onclick="fetch_feeds(); $('#message').click(); return false">manually updating the items</a> (this make take a moment) if you do not wish to wait for them to automatically refresh.</p>
+{{/if}}

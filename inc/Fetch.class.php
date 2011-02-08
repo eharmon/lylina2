@@ -19,7 +19,6 @@ class Fetch {
 		require_once('lib/htmlpurifier/library/HTMLPurifier.auto.php');
 		require_once('lib/simplepie/simplepie.inc');
 		require_once('inc/SimplePie_Sanitize_Null.class.php');
-		require_once('lib/htmlpurifier/library/HTMLPurifier/Filter/YouTube.php');
 	}
 	
 	function get() {
@@ -27,7 +26,6 @@ class Fetch {
 		$purifier_config->set('Cache.SerializerPath', 'cache');
 		// TODO: This feature is very nice, but breaks titles now that we purify them. Titles only need their entities fixed, so we shouldn't really purify them allowing us to turn this back on
 #		$purifier_config->set('AutoFormat.Linkify', true);
-#		$purifier_config->set('Filter.YouTube', true);
 		// Allow flash embeds in newer versions of purifier
 		$purifier_config->set('HTML.SafeObject', true);
 		$purifier_config->set('Output.FlashCompat', true);
@@ -38,9 +36,6 @@ class Fetch {
 		$feeds = $this->db->GetAll($query);
 		
 		$pie = new SimplePie();
-#		$pie->set_cache_duration(0);
-#		$pie->set_cache_location('cache');
-#		$pie->enable_cache(true);
 		$pie->enable_cache(false);
 		$pie->set_sanitize_class('SimplePie_Sanitize_Null');
 		$pie->set_autodiscovery_level(SIMPLEPIE_LOCATOR_ALL);
@@ -218,9 +213,9 @@ class Fetch {
 	// From PHP.net user notes
 	// htmlentities() which preserves originals
 	private function htmlentities2($html) {
-        	$translation_table=get_html_translation_table (HTML_ENTITIES,ENT_QUOTES);
+        	$translation_table = get_html_translation_table(HTML_ENTITIES, ENT_QUOTES);
 	        $translation_table[chr(38)] = '&';
-	        return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($html, $translation_table));
+	        return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/", "&amp;", strtr($html, $translation_table));
 	}
 
 }

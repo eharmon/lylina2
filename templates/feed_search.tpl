@@ -4,9 +4,9 @@
 Here are some headlines we found
 {{/if}}
 {{if $feed->get_title()}}
-at {{$feed->get_title()}}:<br /><br />
+at {{$feed->get_title()}}:<br />
 {{elseif $items}}
-:<br /><br />
+:<br />
 {{/if}}
 {{if $items}}
 <ul class="propertylist">
