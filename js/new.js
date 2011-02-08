@@ -99,8 +99,8 @@ function setupElements() {
 
 	var old_newest_id = newest_id;
 	$(".item").each(function() {
-		if(parseInt($(this).attr("id").split(":")[1]) > newest_id) {
-			newest_id = parseInt($(this).attr("id").split(":")[1]);
+		if(parseInt($(this).attr("id").split(":")[0]) > newest_id) {
+			newest_id = parseInt($(this).attr("id").split(":")[0]);
 		}
 	});
 
@@ -183,7 +183,7 @@ $(document).ready(function() {
 		$(".selected").removeClass("selected");
 		$(this).parent().parent().addClass("selected");
 		$(this).parent().parent().removeClass("new");
-		markRead($(this).parent().parent().attr("id").split(":")[1]);
+		markRead($(this).parent().parent().attr("id").split(":")[0]);
 	//	return false;
 	});
 	$(".title").live('click', function() {
@@ -194,7 +194,7 @@ $(document).ready(function() {
 			closeItem();
 		else {
 			openItem();
-			markRead($(this).parent().attr("id").split(":")[1]);
+			markRead($(this).parent().attr("id").split(":")[0]);
 		}
 	});
 	$("#message").live('click', function() {
