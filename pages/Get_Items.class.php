@@ -15,10 +15,15 @@ class Get_Items {
 
 	function render() {
 		$newest = $_REQUEST['newest'];
+		if(isset($_REQUEST['pivot'])) {
+			$pivot = $_REQUEST['pivot'];
+		} else {
+			$pivot = false;
+		}
 
 		$items = new Items($this->db);
 
-		$list = $items->get_items($newest);
+		$list = $items->get_items($newest, $pivot);
 
 		$render = new Render();
 		$render->assign('items', $list);

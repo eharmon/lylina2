@@ -14,8 +14,12 @@ class Items {
 		$this->db = $db;
 	}
 
-	function get_items($newest = 0) {
-		$items = $this->db->GetAll('SELECT lylina_items.id, lylina_items.url, lylina_items.title, lylina_items.body, UNIX_TIMESTAMP(lylina_items.dt) AS timestamp, lylina_items.viewed, lylina_feeds.url AS feed_url, lylina_feeds.name AS feed_name FROM lylina_items, lylina_feeds WHERE UNIX_TIMESTAMP(lylina_items.dt) > UNIX_TIMESTAMP()-(8*60*60) AND lylina_items.feed_id = lylina_feeds.id ORDER BY lylina_items.dt DESC');
+	function get_items($newest = 0, $pivot = 0) {
+		if($pivot > 0) {
+			$items = $this->db->GetAll("SELECT lylina_items.id, lylina_items.url, lylina_items.title, lylina_items.body, UNIX_TIMESTAMP(lylina_items.dt) AS timestamp, lylina_items.viewed, lylina_feeds.url AS feed_url, lylina_feeds.name AS feed_name FROM lylina_items WHERE lylina_items.id < $pivot ORDER BY lylina_items.dt DESC LIMIT 100");
+		} else {
+			$items = $this->db->GetAll('SELECT lylina_items.id, lylina_items.url, lylina_items.title, lylina_items.body, UNIX_TIMESTAMP(lylina_items.dt) AS timestamp, lylina_items.viewed, lylina_feeds.url AS feed_url, lylina_feeds.name AS feed_name FROM lylina_items, lylina_feeds WHERE UNIX_TIMESTAMP(lylina_items.dt) > UNIX_TIMESTAMP()-(8*60*60) AND lylina_items.feed_id = lylina_feeds.id ORDER BY lylina_items.dt DESC');
+		}
 
 		// TODO: Is join faster?
 //		$items = $this->db->GetAll('SELECT lylina_items.id, lylina_items.url, lylina_items.title, lylina_items.body, UNIX_TIMESTAMP(lylina_items.dt) AS timestamp, lylina_items.viewed, lylina_feeds.url AS feed_url, lylina_feeds.name AS feed_name FROM lylina_items JOIN lylina_feeds ON lylina_items.feed_id = lylina_feeds.id WHERE UNIX_TIMESTAMP(lylina_items.dt) > UNIX_TIMESTAMP()-(8*60*60) ORDER BY lylina_items.dt DESC');
@@ -34,14 +38,16 @@ class Items {
 			$newest = $newest_read;
 		}
 
-                foreach($items as &$item) {
-                        // If we have a newer item, mark it as new
-                        if($newest && $item['id'] > $newest) {
-                                $item['new'] = 1;
-                        }
-                        // Format the date for headers
-                        $item['date'] = date('l F j, Y', $item['timestamp']);
-                }
+		foreach($items as &$item) {
+			// If we have a newer item, mark it as new
+			if($newest && $item['id'] > $newest) {
+				$item['new'] = 1;
+			} else {
+				$item['new'] = 0;
+			}
+			// Format the date for headers
+			$item['date'] = date('l F j, Y', $item['timestamp']);
+		}
 
 		return $items;
 	}

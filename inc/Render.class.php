@@ -18,6 +18,12 @@ class Render extends Smarty {
 		global $auth;
 		$this->assign('auth', $auth->check());
 
+		// Assign a false title by default so we don't get warnings about title being undefined
+		$this->assign('title', false);
+
+		// Get rid of whitespace
+		$this->loadFilter("output","trimwhitespace");
+
 		// Smarty defaults to { and }, which is used by script tags and CSS and is thus stupid, fix here
 		$this->left_delimiter = '{{';
 		$this->right_delimiter = '}}';
