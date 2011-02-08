@@ -9,6 +9,39 @@ NEWS ( CHANGELOG and HISTORY )                                     HTMLPurifier
     . Internal change
 ==========================
 
+4.3.0, unknown release date
+# Fixed broken caching of customized raw definitions, but requires an
+  API change.  The old API still works but will emit a warning,
+  see http://htmlpurifier.org/docs/enduser-customize.html#optimized
+  for how to upgrade your code.
+! Added %HTML.Nofollow to add rel="nofollow" to external links.
+! More types of SPL autoloaders allowed on later versions of PHP.
+! Implementations for position, top, left, right, bottom, z-index
+  when %CSS.Trusted is on.
+! Add %Cache.SerializerPermissions option for custom serializer
+  directory/file permissions
+! Fix longstanding bug in Flash support for non-IE browsers, and
+  allow more wmode attributes.
+- Switch to an iterative traversal of the DOM, which prevents us
+  from running out of stack space for deeply nested documents.
+  Thanks Maxim Krizhanovsky for contributing a patch.
+- Make removal of conditional IE comments ungreedy; thanks Bernd
+  for reporting.
+- Escape CDATA before removing Internet Explorer comments.
+- Fix removal of id attributes under certain conditions by ensuring
+  armor attributes are preserved when recreating tags.
+- Check if schema.ser was corrupted.
+- Check if zend.ze1_compatibility_mode is on, and error out if it is.
+  This safety check is only done for HTMLPurifier.auto.php; if you
+  are using standalone or the specialized includes files, you're
+  expected to know what you're doing.
+- Stop repeatedly writing the cache file after I'm done customizing a
+  raw definition.  Reported by ajh.
+- Switch to using require_once in the Bootstrap to work around bad
+  interaction with Zend Debugger and APC.  Reported by Antonio Parraga.
+- Fix URI handling when hostname is missing but scheme is present.
+  Reported by Neike Taika-Tessaro.
+
 4.2.0, released 2010-09-15
 ! Added %Core.RemoveProcessingInstructions, which lets you remove
   <? ... ?> statements.

@@ -32,19 +32,24 @@
    <line>218</line>
   </file>
  </directive>
- <directive id="CSS.AllowImportant">
+ <directive id="CSS.Trusted">
   <file name="HTMLPurifier/CSSDefinition.php">
    <line>222</line>
   </file>
  </directive>
+ <directive id="CSS.AllowImportant">
+  <file name="HTMLPurifier/CSSDefinition.php">
+   <line>226</line>
+  </file>
+ </directive>
  <directive id="CSS.AllowedProperties">
   <file name="HTMLPurifier/CSSDefinition.php">
-   <line>275</line>
+   <line>296</line>
   </file>
  </directive>
  <directive id="CSS.ForbiddenProperties">
   <file name="HTMLPurifier/CSSDefinition.php">
-   <line>289</line>
+   <line>310</line>
   </file>
  </directive>
  <directive id="Cache.DefinitionImpl">
@@ -186,15 +191,20 @@
  </directive>
  <directive id="HTML.Proprietary">
   <file name="HTMLPurifier/HTMLModuleManager.php">
-   <line>221</line>
+   <line>220</line>
   </file>
  </directive>
  <directive id="HTML.SafeObject">
   <file name="HTMLPurifier/HTMLModuleManager.php">
-   <line>226</line>
+   <line>223</line>
   </file>
  </directive>
  <directive id="HTML.SafeEmbed">
+  <file name="HTMLPurifier/HTMLModuleManager.php">
+   <line>226</line>
+  </file>
+ </directive>
+ <directive id="HTML.Nofollow">
   <file name="HTMLPurifier/HTMLModuleManager.php">
    <line>229</line>
   </file>
@@ -357,7 +367,7 @@
  </directive>
  <directive id="HTML.FlashAllowFullScreen">
   <file name="HTMLPurifier/AttrTransform/SafeParam.php">
-   <line>37</line>
+   <line>38</line>
   </file>
  </directive>
  <directive id="Core.EscapeInvalidChildren">
@@ -368,6 +378,12 @@
  <directive id="Cache.SerializerPath">
   <file name="HTMLPurifier/DefinitionCache/Serializer.php">
    <line>91</line>
+  </file>
+ </directive>
+ <directive id="Cache.SerializerPermissions">
+  <file name="HTMLPurifier/DefinitionCache/Serializer.php">
+   <line>107</line>
+   <line>124</line>
   </file>
  </directive>
  <directive id="Filter.ExtractStyleBlocks.TidyImpl">
