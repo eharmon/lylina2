@@ -7,8 +7,8 @@
 
 // This class handles page display
 class Display {
-	function __construct() {
-	}
+    function __construct() {
+    }
 
-	function display
+    function display
 }

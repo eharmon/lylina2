@@ -8,20 +8,20 @@
 // Handle logout
 // TODO: Merge into admin page?
 class Logout {
-	// Our handle on the DB
-	private $db;
-	// Our handle on Auth
-	private $auth;
+    // Our handle on the DB
+    private $db;
+    // Our handle on Auth
+    private $auth;
 
-	function __construct() {
+    function __construct() {
                 global $db;
                 $this->db = $db;
                 global $auth;
                 $this->auth = $auth;
         }
 
-	function render() {
-		$this->auth->logout();
-		header('Location: index.php');
-	}
+    function render() {
+        $this->auth->logout();
+        header('Location: index.php');
+    }
 }

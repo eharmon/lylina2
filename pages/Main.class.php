@@ -6,23 +6,23 @@
 // Copyright (C) 2006-2010 Eric Harmon
 
 class Main {
-	private $db;
-	function __construct() {
-		global $db;
-		global $auth;
-		$this->db = $db;
-	}
+    private $db;
+    function __construct() {
+        global $db;
+        global $auth;
+        $this->db = $db;
+    }
 
-	function render() {
-		$render = new Render();
-		$render->assign('update', true);
-		$render->display('head.tpl');
+    function render() {
+        $render = new Render();
+        $render->assign('update', true);
+        $render->display('head.tpl');
 
-		$items = new Items($this->db);
-		$list = $items->get_items();
+        $items = new Items($this->db);
+        $list = $items->get_items();
 
-		$render->assign('items', $list);
-		$render->display('items.tpl');
-		$render->display('foot.tpl');
-	}
+        $render->assign('items', $list);
+        $render->display('items.tpl');
+        $render->display('foot.tpl');
+    }
 }

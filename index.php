@@ -10,13 +10,13 @@ $base_config = parse_ini_file("config.ini");
 
 // Set up our autoloads
 function lylina_autoload($name) {
-	// Load utility classes
-	if(file_exists("inc/$name.class.php")) {
-		include("inc/$name.class.php");
-	// Load page classes
-	} elseif(file_exists("pages/$name.class.php")) {
-		include("pages/$name.class.php");
-	}
+    // Load utility classes
+    if(file_exists("inc/$name.class.php")) {
+        include("inc/$name.class.php");
+    // Load page classes
+    } elseif(file_exists("pages/$name.class.php")) {
+        include("pages/$name.class.php");
+    }
 }
 spl_autoload_register("lylina_autoload");
 
@@ -36,14 +36,14 @@ $db->Connect($base_config['hostname'], $base_config['user'], $base_config['pass'
 // Handle login
 $auth = new Auth();
 if(isset($_POST['pass'])) {
-	$auth->validate($_POST['pass']);
+    $auth->validate($_POST['pass']);
 }
 
 // Handle requests
 if(isset($_REQUEST['p'])) {
-	$page = ucfirst($_REQUEST['p']);
+    $page = ucfirst($_REQUEST['p']);
 } else {
-	$page = "Main";
+    $page = "Main";
 }
 
 // Load corresponding page Class and excute

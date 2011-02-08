@@ -7,27 +7,27 @@
 
 // Fetch feeds
 class Update {
-	private $db;
-	function __construct() {
-		global $db;
-		$this->db = $db;
-	}
+    private $db;
+    function __construct() {
+        global $db;
+        $this->db = $db;
+    }
 
-	function render() {
-		$newest = $_REQUEST['newest'];
-		$fetch = new Fetch($this->db);
-		$fetch->get();
+    function render() {
+        $newest = $_REQUEST['newest'];
+        $fetch = new Fetch($this->db);
+        $fetch->get();
 
-		$result = $this->db->GetRow('SELECT COUNT(*) FROM lylina_items WHERE id > ? AND UNIX_TIMESTAMP(dt) > UNIX_TIMESTAMP()-(8*60*60)', $newest);
+        $result = $this->db->GetRow('SELECT COUNT(*) FROM lylina_items WHERE id > ? AND UNIX_TIMESTAMP(dt) > UNIX_TIMESTAMP()-(8*60*60)', $newest);
 
-		if($result) {
-			$count = $result['COUNT(*)'];
-		} else {
-			$count = 0;
-		}
+        if($result) {
+            $count = $result['COUNT(*)'];
+        } else {
+            $count = 0;
+        }
 
-		$render = new Render();
-		$render->assign('count', $count);
-		$render->display('update.tpl');
-	}
+        $render = new Render();
+        $render->assign('count', $count);
+        $render->display('update.tpl');
+    }
 }

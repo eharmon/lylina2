@@ -7,14 +7,14 @@
 
 // Mark things as read
 class Read {
-	private $db;
-	function __construct() {
-		global $db;
-		$this->db = $db;
-	}
+    private $db;
+    function __construct() {
+        global $db;
+        $this->db = $db;
+    }
 
-	function render() {
-		$item_id = $_REQUEST['id'];
-		$this->db->Execute('UPDATE lylina_items SET viewed = 1 WHERE id = ?', $item_id);
-	}
+    function render() {
+        $item_id = $_REQUEST['id'];
+        $this->db->Execute('UPDATE lylina_items SET viewed = 1 WHERE id = ?', $item_id);
+    }
 }

@@ -7,15 +7,15 @@
 
 // This class handles DB abstraction via ADODB
 class DB {
-	// Internal database connection object
-	private $db;
-	function __construct($db_config) {
-		// Setup and connect ADODB
-		require_once('lib/adodb5/adodb.inc.php');
-		$this->db = ADONewConnection($db_config['db_type']);
-		$this->db->Connect($db_config['hostname'], $db_config['user'], $db_config['pass'], $db_config['database']);
-	}
+    // Internal database connection object
+    private $db;
+    function __construct($db_config) {
+        // Setup and connect ADODB
+        require_once('lib/adodb5/adodb.inc.php');
+        $this->db = ADONewConnection($db_config['db_type']);
+        $this->db->Connect($db_config['hostname'], $db_config['user'], $db_config['pass'], $db_config['database']);
+    }
 
-	function fetch_rows($query) {
-		
+    function fetch_rows($query) {
+        
 

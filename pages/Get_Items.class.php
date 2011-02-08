@@ -7,26 +7,26 @@
 
 // AJAX display feeds
 class Get_Items {
-	private $db;
-	function __construct() {
-		global $db;
-		$this->db = $db;
-	}
+    private $db;
+    function __construct() {
+        global $db;
+        $this->db = $db;
+    }
 
-	function render() {
-		$newest = $_REQUEST['newest'];
-		if(isset($_REQUEST['pivot'])) {
-			$pivot = $_REQUEST['pivot'];
-		} else {
-			$pivot = false;
-		}
+    function render() {
+        $newest = $_REQUEST['newest'];
+        if(isset($_REQUEST['pivot'])) {
+            $pivot = $_REQUEST['pivot'];
+        } else {
+            $pivot = false;
+        }
 
-		$items = new Items($this->db);
+        $items = new Items($this->db);
 
-		$list = $items->get_items($newest, $pivot);
+        $list = $items->get_items($newest, $pivot);
 
-		$render = new Render();
-		$render->assign('items', $list);
-		$render->display('items.tpl');
-	}
+        $render = new Render();
+        $render->assign('items', $list);
+        $render->display('items.tpl');
+    }
 }

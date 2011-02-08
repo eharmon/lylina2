@@ -11,21 +11,21 @@ set_include_path(get_include_path() . PATH_SEPARATOR . '/home/eharmon/sites/c63.
 
 // This class supports display through Smarty
 class Render extends Smarty {
-	function __construct() {
-		parent::__construct();
+    function __construct() {
+        parent::__construct();
 
-		// Pull in the auth object so we can tell templates if we're properly authenticated or not
-		global $auth;
-		$this->assign('auth', $auth->check());
+        // Pull in the auth object so we can tell templates if we're properly authenticated or not
+        global $auth;
+        $this->assign('auth', $auth->check());
 
-		// Assign a false title by default so we don't get warnings about title being undefined
-		$this->assign('title', false);
+        // Assign a false title by default so we don't get warnings about title being undefined
+        $this->assign('title', false);
 
-		// Get rid of whitespace
-		$this->loadFilter("output","trimwhitespace");
+        // Get rid of whitespace
+        $this->loadFilter("output","trimwhitespace");
 
-		// Smarty defaults to { and }, which is used by script tags and CSS and is thus stupid, fix here
-		$this->left_delimiter = '{{';
-		$this->right_delimiter = '}}';
-	}
+        // Smarty defaults to { and }, which is used by script tags and CSS and is thus stupid, fix here
+        $this->left_delimiter = '{{';
+        $this->right_delimiter = '}}';
+    }
 }

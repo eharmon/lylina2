@@ -7,9 +7,9 @@
 
 // This is the interface for the functions a basic Page provides
 interface Page {
-	function __construct($db) {
-	}
+    function __construct($db) {
+    }
 
-	function render() {
-	}
+    function render() {
+    }
 }
