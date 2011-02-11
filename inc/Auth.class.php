@@ -11,17 +11,21 @@ class Auth {
     private $db;
     // Handle on the configuration
     private $config;
-    // TODO: Read the salt for real
-    private $salt = "temp";
 
     function __construct() {
         global $db;
+        global $base_config;
         $this->db = $db;
         $this->config = new Config($this->db);
+        $this->salt = $base_config['salt'];
+    }
+
+    function hash($pass) {
+        return sha1($pass . $this->salt);
     }
 
     function validate($pass) {
-        if($this->config->get('password') == sha1($pass . $this->salt)) {
+        if($this->config->get('password') == $this->hash($pass)) {
             // If its a good password, let's start the session and generate a unique fingerprint of the remote user
             @session_start();
             // User agent and remote host help prevent stolen-cookie attacks, may as well make this properly secure
