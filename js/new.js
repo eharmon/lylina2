@@ -82,15 +82,20 @@ var biggest = 0;
 var scrolled = 0;
 var newest_id = 1;
 
-function setupElements() {
+function setupElements(container) {
+    // If a container was not given assume #main
+    if(!container) {
+        container = $("#main");
+    }
+
     // Prevent images from loading until the JS runs, based on jQuery LazyLoad by Mike Tuupola
-    $(".excerpt img").each(function() {
+    container.find(".excerpt img").each(function() {
         $(this).data("original", $(this).attr("src"));
         $(this).attr("src", "img/blank.png");
     });
 
     // TODO: Do this on the server side? It is display tweaking however.
-    $(".excerpt object").each(function() {
+    container.find(".excerpt object").each(function() {
         // Don't do this for IE, it doesn't end up with a proper object so you can't append to it
         if(!$.browser.msie) {
             $(this).append("<param name='wmode' value='transparent'>");
@@ -98,7 +103,7 @@ function setupElements() {
     });
 
     var old_newest_id = newest_id;
-    $(".item").each(function() {
+    container.find(".item").each(function() {
         if(parseInt($(this).attr("id").split(":")[0]) > newest_id) {
             newest_id = parseInt($(this).attr("id").split(":")[0]);
         }
@@ -106,6 +111,40 @@ function setupElements() {
 
     // Now that we've temporarily killed all the images on the page for loading speed, start loading them in the background
     /*setTimeout(loadImages, 5000);*/
+}
+
+function getTimeFromFeedElement(feed) {
+    var item = feed.find(".item").first();
+    // Use regular expression to grab everything after the :
+    var timeStr = item.attr("id").replace(/:(\d+)$/, "$1");
+    return parseInt(timeStr);
+}
+
+function mergeNewItems(newItems) {
+    // Get first feed currently on page
+    var pageFeed = $("#main").find(".feed").first();
+    newItems.find(".feed").each(function() {
+        var newItemTime = getTimeFromFeedElement($(this));
+        var inserted = false;
+
+        while(newItemTime < getTimeFromFeedElement(pageFeed)) {
+            // Get next feed on the page
+            var nextFeed = pageFeed.next(".feed");
+            if(nextFeed.length == 0) {
+                // There are no more feeds on the page so we need to insert after this one
+                pageFeed.after($(this));
+                // Don't insert this new item again later
+                inserted = true;
+                break;
+            }
+            pageFeed = nextFeed;
+        }
+
+        // We found the first page feed which is <= the new item; we insert the new item before it
+        if(!inserted) {
+            pageFeed.before($(this));
+        }
+    });
 }
 
 function loadImages() {
@@ -200,20 +239,23 @@ $(document).ready(function() {
     $("#message").live('click', function() {
         if(fetch) { // This will prevent clicking on the update message when lylina is already updating
             fetch = 0; // Also disables fetching
-            $("#main").slideUp("slow");
             $("#message").html("<img src=\"img/4-1.gif\" />Please wait while lylina updates...");
-            $("#main").load(
+            $("<div></div>").load(
                 "index.php",
                 "p=Get_Items&newest=" + newest_id,
                 function(responseText, textStatus, XMLHttpRequest) {
-                    setupElements();
-                    $("#main").slideDown("500");
-                    $("#message").html("Get new items");
-                    document.title = title;
-                    new_items = 0;
-                    fetch = 1;
-                    if(textStatus != "success")
+                    if(textStatus == "success") {
+                        setupElements($(this));
+                        mergeNewItems($(this));
+                        $("#message").html("Get new items");
+                        document.title = title;
+                        new_items = 0;
+                    } else {
                         alert("Update fail: " . textStatus);
+                    }
+
+                    // Re-allow fetching even if loading failed
+                    fetch = 1;
                 }
             );
         }
