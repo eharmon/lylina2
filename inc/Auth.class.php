@@ -11,13 +11,13 @@ class Auth {
     private $db;
     // Handle on the configuration
     private $config;
-    // TODO: Read the salt for real
-    private $salt = "temp";
 
     function __construct() {
         global $db;
+        global $base_config;
         $this->db = $db;
         $this->config = new Config($this->db);
+        $this->salt = $base_config['salt'];
     }
 
     function validate($pass) {
