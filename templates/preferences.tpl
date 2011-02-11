@@ -1,5 +1,11 @@
 ﻿{{include file='head.tpl'}}
 <div id="container">
+<h2>Change Password</h2>
+<form method="post" action="admin?op=passwd">
+Current Password: <input type="password" name="old_pass" value="" /><br />
+New Password: <input type="password" name="new_pass" value="" /><br />
+<input type="submit" value="Change" />
+</form>
 <h2>Add Feed</h2>
 <form method="post" action="admin?op=add">
 Website or Feed URL: <input type="text" name="url" />

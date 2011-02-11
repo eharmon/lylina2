@@ -19,6 +19,8 @@ class Admin {
         $this->auth = $auth;
     }
 
+    // General TODO: check sanity of all inputs
+
     function render() {
         $render = new Render($this->db);
 
@@ -122,6 +124,23 @@ class Admin {
             $render->assign('feed', $feed[0]);
             $render->assign('title', 'Rename Feed');
             $render->display('rename_feed.tpl');
+        }
+    }
+    function passwd($render) {
+        $old_pass = $_REQUEST['old_pass'];
+        $new_pass = $_REQUEST['new_pass'];
+        $config = new Config();
+        if($this->auth->validate($old_pass)) {
+            $config->set('password', $this->auth->hash($new_pass));
+            $this->auth->logout();
+            $render->assign('auth', false);
+            $render->assign('title', 'Password changed');
+            $render->assign('reason', "Your password has been changed. You'll need to log in again to continue.");
+            $render->display('auth_fail.tpl');
+        } else {
+            $render->assign('title', 'There was an error changing your password');
+            $render->assign('reason', 'Your current password was incorrect. <a href="admin">Try again</a>.');
+            $render->display('auth_fail.tpl');
         }
     }
 }
