@@ -156,6 +156,7 @@ function cleanupOldItems() {
         if(curTime - time*1000 > 8*60*60*1000) {
             $(this).remove();
         }
+        $(this).find(".item").removeClass('new');
     });
 }
 
@@ -258,8 +259,8 @@ $(document).ready(function() {
                 function(responseText, textStatus, XMLHttpRequest) {
                     if(textStatus == "success") {
                         setupElements($(this));
-                        mergeNewItems($(this));
                         cleanupOldItems();
+                        mergeNewItems($(this));
                         $("#message").html("Get new items");
                         document.title = title;
                         new_items = 0;
