@@ -116,7 +116,8 @@ function setupElements(container) {
 function getTimeFromFeedElement(feed) {
     var item = feed.find(".item").first();
     // Use regular expression to grab everything after the :
-    var timeStr = item.attr("id").replace(/:(\d+)$/, "$1");
+    var idAttr = item.attr("id");
+    var timeStr = idAttr.replace(/(.+:)(\d+)$/, "$2");
     return parseInt(timeStr);
 }
 
@@ -143,6 +144,17 @@ function mergeNewItems(newItems) {
         // We found the first page feed which is <= the new item; we insert the new item before it
         if(!inserted) {
             pageFeed.before($(this));
+        }
+    });
+}
+
+function cleanupOldItems() {
+    $("#main").find(".feed").each(function() {
+        var time = getTimeFromFeedElement($(this));
+        var date = new Date();
+        var curTime = date.getTime();
+        if(curTime - time*1000 > 8*60*60*1000) {
+            $(this).remove();
         }
     });
 }
@@ -247,6 +259,7 @@ $(document).ready(function() {
                     if(textStatus == "success") {
                         setupElements($(this));
                         mergeNewItems($(this));
+                        cleanupOldItems();
                         $("#message").html("Get new items");
                         document.title = title;
                         new_items = 0;
