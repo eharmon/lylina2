@@ -21,6 +21,9 @@ class Render extends Smarty {
         // Assign a false title by default so we don't get warnings about title being undefined
         $this->assign('title', false);
 
+        // Assign a false updates by default
+        $this->assign('update', false);
+
         // Get rid of whitespace
         $this->loadFilter("output","trimwhitespace");
 
