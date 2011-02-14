@@ -322,7 +322,6 @@ $(document).ready(function() {
                 function(responseText, textStatus, XMLHttpRequest) {
                     if(textStatus == "success") {
                         setupElements($(this));
-                        // TODO: split this into two separate cleans: clean new class items, clean stale items
                         cleanupOldItems();
                         mergeNewItems($(this));
                         $("#message").html("Get new items");
