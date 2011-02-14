@@ -113,27 +113,81 @@ function setupElements(container) {
     /*setTimeout(loadImages, 5000);*/
 }
 
-function getTimeFromFeedElement(feed) {
+/**
+ * Check if two Date object represent date-times on the same day.
+ */
+function areSameDay(d1, d2) {
+    // Create Date's without HMS parts so they can be compared
+    var day1 = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate());
+    var day2 = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate());
+    return (day1 - day2) == 0;
+}
+
+function getDateFromFeedElement(feed) {
     var item = feed.find(".item").first();
     // Use regular expression to grab everything after the :
     var idAttr = item.attr("id");
     var timeStr = idAttr.replace(/(.+:)(\d+)$/, "$2");
-    return parseInt(timeStr);
+    var epochTime = parseInt(timeStr);
+
+    // epochTime is in seconds from PHP; Date expects milliseconds
+    return new Date(epochTime * 1000);
 }
 
 function mergeNewItems(newItems) {
+    // First merge in new day headers if necessary
+    // Get first header on page. Any new headers will most likely be newer than it.
+    var firstHeader = $("#main").find("h1").first();
+    newItems.find("h1").each(function() {
+        if($(this).html() != firstHeader.html()) {
+            // The header in newItems is different than the first on the page
+            // Now we need to find where it goes, if anywhere
+            var newDate = new Date($(this).html());
+            var firstDate = new Date($(firstHeader).html());
+
+            if(newDate > firstDate) { // Header is newer, insert now
+                firstHeader.before($(this));
+            } else if(newDate < firstDate) { // Header is older, check farther
+                var nextHeaders = firstHeader.siblings("h1");
+
+                // See if the new header is already on the page
+                for(var i = 0; i < nextHeaders.length; i++) {
+                    if(nextHeaders[i].html == $(this).html) {
+                        // Header is already on the page so we can return
+                        return;
+                    }
+                }
+
+                // We could not find the header on the page, so insert it
+                // The header must go at the end of the page, items will be inserted later
+                $("#main").append($(this));
+            } else { // Sanity check, should never get here
+                throw "Failed sanity check while inserting new day headers";
+            }
+        }
+    });
+
     // Get first feed currently on page
     var pageFeed = $("#main").find(".feed").first();
     newItems.find(".feed").each(function() {
-        var newItemTime = getTimeFromFeedElement($(this));
+        var newItemDate = getDateFromFeedElement($(this));
         var inserted = false;
 
-        while(newItemTime < getTimeFromFeedElement(pageFeed)) {
+        while(newItemDate < getDateFromFeedElement(pageFeed)) {
             // Get next feed on the page
-            var nextFeed = pageFeed.next(".feed");
+            var nextFeed = pageFeed.nextAll(".feed:first");
+            // Check to see if there were no more items
             if(nextFeed.length == 0) {
                 // There are no more feeds on the page so we need to insert after this one
-                pageFeed.after($(this));
+                if(areSameDay(newItemDate, getDateFromFeedElement(pageFeed))) {
+                    // New item goes under the same day header so just insert after it
+                    pageFeed.after($(this));
+                } else {
+                    // There should be only day headers after pageFeed right now
+                    // Also the next element should be the day header for this new item
+                    pageFeed.next().after($(this));
+                }
+
                 // Don't insert this new item again later
                 inserted = true;
                 break;
@@ -143,16 +197,25 @@ function mergeNewItems(newItems) {
 
         // We found the first page feed which is <= the new item; we insert the new item before it
         if(!inserted) {
-            pageFeed.before($(this));
+            // Need to see if the new item has the same date as the one we're inserting before
+            var pageFeedDate = getDateFromFeedElement(pageFeed);
+            if(areSameDay(newItemDate, pageFeedDate)) { // same day, insert here
+                pageFeed.before($(this));
+            } else if(newItemDate > pageFeedDate) { // must insert before day header
+                pageFeed.prev().before($(this));
+            } else { // sanity check; should never happen due to way insertion is done
+                throw "Failed sanity check while inserting new item";
+            }
         }
     });
 }
 
 function cleanupOldItems() {
     $("#main").find(".feed").each(function() {
-        var time = getTimeFromFeedElement($(this));
-        var date = new Date();
-        var curTime = date.getTime();
+        var date = getDateFromFeedElement($(this));
+        var time = date.getTime();
+        var now = new Date();
+        var curTime = now.getTime();
         if(curTime - time*1000 > 8*60*60*1000) {
             $(this).remove();
         }
@@ -259,6 +322,7 @@ $(document).ready(function() {
                 function(responseText, textStatus, XMLHttpRequest) {
                     if(textStatus == "success") {
                         setupElements($(this));
+                        // TODO: split this into two separate cleans: clean new class items, clean stale items
                         cleanupOldItems();
                         mergeNewItems($(this));
                         $("#message").html("Get new items");
