@@ -135,6 +135,14 @@ function getDateFromFeedElement(feed) {
 }
 
 function mergeNewItems(newItems) {
+    // Check if page is empty; happens if all previous items were old and got cleared
+    if($("#main").find(".item").length == 0) {
+        // page is empty, just drop new items in place and return
+        // newItems has a dummy div so grab the children
+        newItems.children().appendTo($("#main"));
+        return;
+    }
+
     // First merge in new day headers if necessary
     // Get first header on page. Any new headers will most likely be newer than it.
     var firstHeader = $("#main").find("h1").first();
@@ -211,6 +219,7 @@ function mergeNewItems(newItems) {
 }
 
 function cleanupOldItems() {
+    // Cleanup old items
     $("#main").find(".feed").each(function() {
         var date = getDateFromFeedElement($(this));
         var time = date.getTime();
@@ -220,6 +229,15 @@ function cleanupOldItems() {
             $(this).remove();
         }
         $(this).find(".item").removeClass('new');
+    });
+
+    // Cleanup old day headers by seeing if they have items after them
+    $("#main").find("h1").each(function() {
+        // See if the next element is not an item
+        if($(this).next(".feed").length == 0) {
+            // No items for this day header, remove it
+            $(this).remove();
+        }
     });
 }
 
