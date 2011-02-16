@@ -225,7 +225,7 @@ function cleanupOldItems() {
         var time = date.getTime();
         var now = new Date();
         var curTime = now.getTime();
-        if(curTime - time*1000 > 8*60*60*1000) {
+        if(curTime - time > 8*60*60*1000) {
             $(this).remove();
         }
         $(this).find(".item").removeClass('new');
