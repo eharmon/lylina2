@@ -137,7 +137,10 @@ function getDateFromFeedElement(feed) {
 function mergeNewItems(newItems) {
     // Check if page is empty; happens if all previous items were old and got cleared
     if($("#main").find(".item").length == 0) {
-        // page is empty, just drop new items in place and return
+        // no items on the page, make sure it is completely empty
+        $("#main").children().remove();
+
+        // page is empty, now just drop new items in place and return
         // newItems has a dummy div so grab the children
         newItems.children().appendTo($("#main"));
         return;
