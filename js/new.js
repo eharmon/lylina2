@@ -148,8 +148,8 @@ function mergeNewItems(newItems) {
 
     // First merge in new day headers if necessary
     // Get first header on page. Any new headers will most likely be newer than it.
-    var firstHeader = $("#main").find("h1").first();
-    newItems.find("h1").each(function() {
+    var firstHeader = $("#main").children("h1").first();
+    newItems.children("h1").each(function() {
         if($(this).html() != firstHeader.html()) {
             // The header in newItems is different than the first on the page
             // Now we need to find where it goes, if anywhere
