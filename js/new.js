@@ -123,8 +123,7 @@ function areSameDay(d1, d2) {
     return (day1 - day2) == 0;
 }
 
-function getDateFromFeedElement(feed) {
-    var item = feed.find(".item").first();
+function getDateFromItemElement(item) {
     // Use regular expression to grab everything after the :
     var idAttr = item.attr("id");
     var timeStr = idAttr.replace(/(.+:)(\d+)$/, "$2");
@@ -178,42 +177,43 @@ function mergeNewItems(newItems) {
         }
     });
 
-    // Get first feed currently on page
-    var pageFeed = $("#main").find(".feed").first();
-    newItems.find(".feed").each(function() {
-        var newItemDate = getDateFromFeedElement($(this));
+    // Get first item currently on page
+    var pageItem = $("#main").find(".item").first();
+    newItems.find(".item").each(function() {
+        var newItemDate = getDateFromItemElement($(this));
         var inserted = false;
 
-        while(newItemDate < getDateFromFeedElement(pageFeed)) {
-            // Get next feed on the page
-            var nextFeed = pageFeed.nextAll(".feed:first");
+        while(newItemDate < getDateFromItemElement(pageItem)) {
+            // Get next item on the page
+            var nextItem = pageItem.nextAll(".item:first");
             // Check to see if there were no more items
-            if(nextFeed.length == 0) {
-                // There are no more feeds on the page so we need to insert after this one
-                if(areSameDay(newItemDate, getDateFromFeedElement(pageFeed))) {
+            if(nextItem.length == 0) {
+                // There are no more items on the page so we need to insert after this one
+                if(areSameDay(newItemDate, getDateFromItemElement(pageItem))) {
                     // New item goes under the same day header so just insert after it
-                    pageFeed.after($(this));
+                    pageItem.after($(this));
                 } else {
-                    // There should be only day headers after pageFeed right now
+                    // There should be only day headers after pageItem right now
                     // Also the next element should be the day header for this new item
-                    pageFeed.next().after($(this));
+                    pageItem.next().after($(this));
                 }
 
                 // Don't insert this new item again later
                 inserted = true;
                 break;
             }
-            pageFeed = nextFeed;
+            pageItem = nextItem;
         }
 
-        // We found the first page feed which is <= the new item; we insert the new item before it
+        // We found the first page item which is <= the new item; we insert the new item before it
         if(!inserted) {
             // Need to see if the new item has the same date as the one we're inserting before
-            var pageFeedDate = getDateFromFeedElement(pageFeed);
-            if(areSameDay(newItemDate, pageFeedDate)) { // same day, insert here
-                pageFeed.before($(this));
-            } else if(newItemDate > pageFeedDate) { // must insert before day header
-                pageFeed.prev().before($(this));
+            var pageItemDate = getDateFromItemElement(pageItem);
+            if(areSameDay(newItemDate, pageItemDate)) { // same day, insert here
+                pageItem.before($(this));
+            } else if(newItemDate > pageItemDate) { // must insert before day header
+                // Day header should be the previous element
+                pageItem.prev().before($(this));
             } else { // sanity check; should never happen due to way insertion is done
                 throw "Failed sanity check while inserting new item";
             }
@@ -223,21 +223,21 @@ function mergeNewItems(newItems) {
 
 function cleanupOldItems() {
     // Cleanup old items
-    $("#main").find(".feed").each(function() {
-        var date = getDateFromFeedElement($(this));
+    $("#main").find(".item").each(function() {
+        var date = getDateFromItemElement($(this));
         var time = date.getTime();
         var now = new Date();
         var curTime = now.getTime();
         if(curTime - time > 8*60*60*1000) {
             $(this).remove();
         }
-        $(this).find(".item").removeClass('new');
+        $(this).removeClass('new');
     });
 
     // Cleanup old day headers by seeing if they have items after them
     $("#main").find("h1").each(function() {
         // See if the next element is not an item
-        if($(this).next(".feed").length == 0) {
+        if($(this).next(".item").length == 0) {
             // No items for this day header, remove it
             $(this).remove();
         }
