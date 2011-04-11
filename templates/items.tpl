@@ -14,6 +14,7 @@
 {{$item.body}}
 </div></div>
 {{/foreach}}
+<div id="older-items-button">Older</div>
 {{else}}
 <p>No items were found, perhaps you haven't opened lylina in awhile? Try <a href="#" onclick="fetch_feeds(); $('#message').click(); return false">manually updating the items</a> (this make take a moment) if you do not wish to wait for them to automatically refresh.</p>
 {{/if}}

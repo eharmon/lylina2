@@ -346,6 +346,16 @@ body {
 	background-color: #F7F7F7;
 }
 
+#older-items-button {
+    text-align: center;
+    font-size: 12pt;
+    font-weight: bold;
+    color: #383F91;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    border-top: 1px solid #AAC;
+}
+
 /* Footer */
 
 #footer {
