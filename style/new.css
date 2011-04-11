@@ -92,10 +92,6 @@ body {
 
 /* Feed */
 
-.feed { /* Container for items coming from the same feed */ 
-	/* Add styling if you want consequent items from the same feed to look "grouped" */
-}
-
 #main > h1 { /* Date */
 	margin: 0;
 	padding: 0.4em 0 0.4em 0.7em;
