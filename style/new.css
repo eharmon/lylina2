@@ -354,6 +354,7 @@ body {
     padding-top: 0.4em;
     padding-bottom: 0.4em;
     border-top: 1px solid #AAC;
+    cursor: pointer;
 }
 
 /* Footer */
