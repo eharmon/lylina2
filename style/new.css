@@ -92,7 +92,7 @@ body {
 
 /* Feed */
 
-#main > h1 { /* Date */
+.day > h1 { /* Date */
 	margin: 0;
 	padding: 0.4em 0 0.4em 0.7em;
 	border-top: 1px solid #00005c;
