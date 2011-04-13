@@ -170,7 +170,9 @@ function mergeNewItems(newItems) {
 
                 // We could not find the header on the page, so insert it
                 // The header must go at the end of the page, items will be inserted later
-                $("#main").append($(this));
+//                $("#main").append($(this));
+                // Insert before the show older button since this is at the bottom
+                $("#show-older-button").before($(this));
             } else { // Sanity check, should never get here
                 throw "Failed sanity check while inserting new day headers";
             }
@@ -219,6 +221,31 @@ function mergeNewItems(newItems) {
             }
         }
     });
+}
+
+function showOlderItems() {
+    // Find the oldest id on the page; could maybe be done more efficiently
+    var oldest_id = Number.MAX_VALUE;
+    $("#main").find(".item").each(function() {
+        var cur = parseInt($(this).attr("id").split(":")[0]);
+        if(cur < oldest_id) {
+            oldest_id = cur;
+        }
+    });
+
+    // Load dummy div with new items and merge them in on success
+    $("<div/>").load(
+        "index.php",
+        "p=Get_Items&pivot=" + oldest_id,
+        function(responseText, textStatus, XMLHttpRequest) {
+            if(textStatus == "success") {
+                setupElements($(this));
+                mergeNewItems($(this));
+            } else {
+                alert("Update fail: " . textStatus);
+            }
+        }
+    );
 }
 
 function cleanupOldItems() {
@@ -358,6 +385,10 @@ $(document).ready(function() {
             );
         }
     });
+    // Handle clicks to show older items
+    $("#show-older-button").live('click', function() {
+        showOlderItems();
+    });
 
 
     // TODO: Fix this, description of functionality is in css
@@ -395,5 +426,4 @@ function fetch_feeds() {
     }
     setTimeout(fetch_feeds, 90 * 1000);
 }
-
 

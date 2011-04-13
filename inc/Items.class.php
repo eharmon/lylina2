@@ -25,9 +25,10 @@ class Items {
                                 lylina_items.viewed, 
                                 lylina_feeds.url AS feed_url, 
                                 lylina_feeds.name AS feed_name 
-                        FROM    lylina_items 
+                        FROM    lylina_items, lylina_feeds
                         WHERE   lylina_items.id < $pivot 
                                 AND lylina_items.id > $newest
+                                AND lylina_items.feed_id = lylina_feeds.id 
                         ORDER BY lylina_items.dt DESC 
                         LIMIT 100");
         } else {
@@ -50,18 +51,21 @@ class Items {
         // TODO: Is join faster?
 //      $items = $this->db->GetAll('SELECT lylina_items.id, lylina_items.url, lylina_items.title, lylina_items.body, UNIX_TIMESTAMP(lylina_items.dt) AS timestamp, lylina_items.viewed, lylina_feeds.url AS feed_url, lylina_feeds.name AS feed_name FROM lylina_items JOIN lylina_feeds ON lylina_items.feed_id = lylina_feeds.id WHERE UNIX_TIMESTAMP(lylina_items.dt) > UNIX_TIMESTAMP()-(8*60*60) ORDER BY lylina_items.dt DESC');
 
-        $newest_read = 0;
+        // Only calculate newest if pivot is not set
+        if(!$pivot) {
+            $newest_read = 0;
 
-        // Find out what the newest one we've read is
-        foreach($items as &$item) {
-            if($item['viewed'] && $item['id'] > $newest_read) {
-                $newest_read = $item['id'];
+            // Find out what the newest one we've read is
+            foreach($items as &$item) {
+                if($item['viewed'] && $item['id'] > $newest_read) {
+                    $newest_read = $item['id'];
+                }
             }
-        }
 
-        // If its newer than the newest item on this page, use that as the "newest" instead, likely the user browsed from a different location
-        if($newest_read > $newest) {
-            $newest = $newest_read;
+            // If its newer than the newest item on this page, use that as the "newest" instead, likely the user browsed from a different location
+            if($newest_read > $newest) {
+                $newest = $newest_read;
+            }
         }
 
         foreach($items as &$item) {

@@ -14,7 +14,11 @@ class Get_Items {
     }
 
     function render() {
-        $newest = $_REQUEST['newest'];
+        if(isset($_REQUEST['newest'])) {
+            $newest = $_REQUEST['newest'];
+        } else {
+            $newest = 0;
+        }
         if(isset($_REQUEST['pivot'])) {
             $pivot = $_REQUEST['pivot'];
         } else {
