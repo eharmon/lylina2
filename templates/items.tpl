@@ -13,7 +13,7 @@
                 <span class="time">{{$item.timestamp|date_format:"%H:%M"}}</span>
                 <span class="title" id="TITLE{{$item.id}}">{{$item.title}}</span>
                 <span class="source">
-                    <a href="{{$item.url}}" target="_blank">&raquo;{{$item.feed_name}}</a>
+                    <a href="{{$item.url}}" target="_blank">&raquo; {{$item.feed_name}}</a>
                 </span>
                 <div class="excerpt">
                     {{$item.body}}

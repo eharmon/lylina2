@@ -8,28 +8,47 @@ jQuery.extend(jQuery.expr[':'], {
 function moveNext() { 
     // Go to next item
     var old = $(".selected");
-    if(old.length == 0 || old.nextALL(".item").length == 0) {
-        old.removeClass("selected");
-        old = $(".item:first");
-        old.addClass("selected");
+    var next = old;
+
+    if(old.length == 0) {
+        next = $(".item:first");
     } else {
-        // This code is really bad, should find a better way
-        old.nextALL(".item:first").addClass("selected");
-        old.removeClass("selected");
+        next = old.nextAll(".item:first");
+        if(next.length == 0) {
+            // no more items in the same day; try the next day
+            next = old.closest(".day").nextAll(".day:first").find(".item:first");
+        }
+        if(next.length == 0) {
+            // didn't find an item in the following day; get the first item
+            next = $(".item:first");
+        }
     }
+
+    old.removeClass("selected");
+    next.addClass("selected");
 }
 
 function movePrevious() {
     // Go to previous item
     var old = $(".selected");
-    if(old.length == 0 || old.prevALL(".item").length == 0) {
-        old.removeClass("selected");
-        old = $(".item:last");
-        old.addClass("selected");
+    var prev = old;
+
+    if(old.length == 0) {
+        prev = $(".item:last");
     } else {
-        old.prevALL(".item:first").addClass("selected");
-        old.removeClass("selected");
+        prev = old.prevAll(".item:first");
+        if(prev.length == 0) {
+            // no more items in the same day; try the previous day
+            prev = old.closest(".day").prevAll(".day:first").find(".item:last");
+        }
+        if(prev.length == 0) {
+            // didn't find an item in the previous day; get the last item
+            prev = $(".item:last");
+        }
     }
+
+    old.removeClass("selected");
+    prev.addClass("selected");
 }
 
 function scrollSelected() {
@@ -144,6 +163,43 @@ function mergeNewItems(newItems) {
         newItems.children().appendTo($("#main"));
         return;
     }
+    
+    // Merge each day into place
+    newItems.children(".day").each(function() {
+        // Get the day element from the page if it exists
+        var day = $("#main").children("#" + $(this).attr("id"));
+
+        if(day.length == 0) {
+            // this day does not exist on the page
+            // find where it goes and insert it
+            var date = new Date($(this).attr("id"));
+
+            var inserted = false;
+            var days = $("#main").children(".day");
+            for(var i = 0; i < days.length; i++) {
+                var nextDate = new Date(days[i].attr("id"));
+                // Insert once the new day comes after an existing one
+                if(date > nextDate) {
+                    days[i].before($(this));
+                    inserted = true;
+                    break;
+                }
+            }
+            // If inserted is false we need to insert after all existing days
+            if(!inserted) {
+                days[days.length-1].after($(this));
+            }
+        } else if(day.length == 1) {
+            // merge this day's items with already existing items
+            var pageItem = day.children(".item:first");
+            $(this).children(".item").each(function() {
+               // TODO 
+            });
+        } else {
+            // Sanity check, should never reach here
+            throw "Failed sanity check merging day element into place";
+        }
+    });
 
     // First merge in new day headers if necessary
     // Get first header on page. Any new headers will most likely be newer than it.
