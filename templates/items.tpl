@@ -5,7 +5,7 @@
             <h1>{{$item.date}}</h1>
     {{elseif $items[$smarty.foreach.items.index - 1].date != $item.date}}
         </div>
-        <div class="day" id="{{$item.date}}">
+        <div class="day" id="{{$item.timestamp|date_format:"%Y%m%d"}}">
             <h1>{{$item.date}}</h1>
     {{/if}}
             <div class="item{{if $item.viewed}} read{{/if}}{{if $item.new}} new{{/if}}" id="{{$item.id}}:{{$item.timestamp}}">
