@@ -172,109 +172,45 @@ function mergeNewItems(newItems) {
         if(day.length == 0) {
             // this day does not exist on the page
             // find where it goes and insert it
-            var date = new Date($(this).attr("id"));
+            var date = $(this).attr("id");
 
             var inserted = false;
             var days = $("#main").children(".day");
             for(var i = 0; i < days.length; i++) {
-                var nextDate = new Date(days[i].attr("id"));
+                var nextDate = $(days[i]).attr("id");
                 // Insert once the new day comes after an existing one
                 if(date > nextDate) {
-                    days[i].before($(this));
+                    $(days[i]).before($(this));
                     inserted = true;
                     break;
                 }
             }
             // If inserted is false we need to insert after all existing days
             if(!inserted) {
-                days[days.length-1].after($(this));
+                $(days[days.length-1]).after($(this));
+                inserted = true;
             }
         } else if(day.length == 1) {
             // merge this day's items with already existing items
             var pageItem = day.children(".item:first");
             $(this).children(".item").each(function() {
-               // TODO 
+                var newDate = getDateFromItemElement($(this));
+                // Find the first page item that should be below the new item
+                // we will insert above it
+                while(pageItem.length > 0 && newDate < getDateFromItemElement(pageItem)) {
+                    pageItem = pageItem.nextAll(".item:first");
+                }
+
+                if(pageItem.length > 0) {
+                    pageItem.before($(this));
+                } else {
+                    // Reached the end of items in this day; append to end
+                    day.append($(this));
+                }
             });
         } else {
             // Sanity check, should never reach here
             throw "Failed sanity check merging day element into place";
-        }
-    });
-
-    // First merge in new day headers if necessary
-    // Get first header on page. Any new headers will most likely be newer than it.
-    var firstHeader = $("#main").children("h1").first();
-    newItems.children("h1").each(function() {
-        if($(this).html() != firstHeader.html()) {
-            // The header in newItems is different than the first on the page
-            // Now we need to find where it goes, if anywhere
-            var newDate = new Date($(this).html());
-            var firstDate = new Date($(firstHeader).html());
-
-            if(newDate > firstDate) { // Header is newer, insert now
-                firstHeader.before($(this));
-            } else if(newDate < firstDate) { // Header is older, check farther
-                var nextHeaders = firstHeader.siblings("h1");
-
-                // See if the new header is already on the page
-                for(var i = 0; i < nextHeaders.length; i++) {
-                    if(nextHeaders[i].html == $(this).html) {
-                        // Header is already on the page so we can return
-                        return;
-                    }
-                }
-
-                // We could not find the header on the page, so insert it
-                // The header must go at the end of the page, items will be inserted later
-//                $("#main").append($(this));
-                // Insert before the show older button since this is at the bottom
-                $("#show-older-button").before($(this));
-            } else { // Sanity check, should never get here
-                throw "Failed sanity check while inserting new day headers";
-            }
-        }
-    });
-
-    // Get first item currently on page
-    var pageItem = $("#main").find(".item").first();
-    newItems.find(".item").each(function() {
-        var newItemDate = getDateFromItemElement($(this));
-        var inserted = false;
-
-        while(newItemDate < getDateFromItemElement(pageItem)) {
-            // Get next item on the page
-            var nextItem = pageItem.nextAll(".item:first");
-            // Check to see if there were no more items
-            if(nextItem.length == 0) {
-                // There are no more items on the page so we need to insert after this one
-                if(areSameDay(newItemDate, getDateFromItemElement(pageItem))) {
-                    // New item goes under the same day header so just insert after it
-                    pageItem.after($(this));
-                } else {
-                    // There should be only day headers after pageItem right now
-                    // Also the next element should be the day header for this new item
-                    pageItem.next().after($(this));
-                }
-
-                // Don't insert this new item again later
-                inserted = true;
-                break;
-            }
-            pageItem = nextItem;
-        }
-
-        // We found the first page item which is <= the new item; we insert the new item before it
-        if(!inserted) {
-            // Need to see if the new item has the same date as the one we're inserting before
-            var pageItemDate = getDateFromItemElement(pageItem);
-            if(areSameDay(newItemDate, pageItemDate)) { // same day, insert here
-                pageItem.before($(this));
-            } else if(newItemDate > pageItemDate) { // must insert before day header
-                // Day header should be the previous element
-                pageItem.prev().before($(this));
-            } else { // sanity check; should never happen due to way insertion is done
-                throw "Failed sanity check while inserting new item";
-            }
         }
     });
 }
