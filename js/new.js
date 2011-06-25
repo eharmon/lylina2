@@ -216,6 +216,8 @@ function mergeNewItems(newItems) {
 }
 
 function showOlderItems() {
+    fetchOlder = 0;
+    $("#show-older-button").html("Loading...");
     // Find the oldest id on the page; could maybe be done more efficiently
     var oldest_id = Number.MAX_VALUE;
     $("#main").find(".item").each(function() {
@@ -236,6 +238,10 @@ function showOlderItems() {
             } else {
                 alert("Update fail: " . textStatus);
             }
+
+            // Re-enable fetching older even if update fails
+            fetchOlder = 1;
+            $("#show-older-button").html("Show Older");
         }
     );
 }
@@ -379,7 +385,9 @@ $(document).ready(function() {
     });
     // Handle clicks to show older items
     $("#show-older-button").live('click', function() {
-        showOlderItems();
+        if(fetchOlder) {
+            showOlderItems();
+        }
     });
 
 
@@ -392,6 +400,7 @@ $(document).ready(function() {
 
 var new_items = 0;
 var fetch = 1;
+var fetchOlder = 1;
 
 function fetch_feeds() {
     if(fetch) {
