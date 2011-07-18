@@ -4,6 +4,7 @@
 // Copyright (C) 2004-2005 Panayotis Vryonis
 // Copyright (C) 2005 Andreas Gohr
 // Copyright (C) 2006-2010 Eric Harmon
+// Copyright (C) 2011 Robert Leith
 
 // Load in the configuration to start
 $base_config = parse_ini_file("config.ini");
@@ -35,8 +36,8 @@ $db->Connect($base_config['hostname'], $base_config['user'], $base_config['pass'
 
 // Handle login
 $auth = new Auth();
-if(isset($_POST['pass'])) {
-    $auth->validate($_POST['pass']);
+if(isset($_POST['user']) && isset($_POST['pass'])) {
+    $auth->validate($_POST['user'], $_POST['pass']);
 }
 
 // Handle requests

@@ -4,6 +4,7 @@
 // Copyright (C) 2004-2005 Panayotis Vryonis
 // Copyright (C) 2005 Andreas Gohr
 // Copyright (C) 2006-2010 Eric Harmon
+// Copyright (C) 2011 Robert Leith
 
 // Handle the admin interface
 class Admin {
@@ -27,7 +28,7 @@ class Admin {
         // Check our authorization
         $auth = new Auth($this->db);
         // If we've been posted a password and it's wrong
-        if(isset($_POST['pass']) && !$auth->validate($_POST['pass'])) {
+        if(isset($_POST['user']) && isset($_POST['pass']) && !$auth->validate($_POST['user'], $_POST['pass'])) {
             // TODO: Use a real error handler instead of this
             header('HTTP/1.1 403 Forbidden');
             $render->assign('title', 'There was an error');

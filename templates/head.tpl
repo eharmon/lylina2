@@ -49,6 +49,7 @@
     <form method="post" action="index.php" class="login">
     <input type="hidden" name="p" value="admin" />
     <input type="hidden" name="op" value="login" />
+    <img src="img/users-trans.png" alt="username" /> <input type="text" name="user" />
     <img src="img/password-trans.png" alt="password" /> <input type="password" name="pass" />
     <input type="submit" value="Login" />
     </form>
