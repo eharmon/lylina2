@@ -16,7 +16,7 @@ at {{$feed->get_title()}}:<br />
 </ul>
 <form method="post" action="admin?op=doadd">
 <input type="hidden" name="feedurl" value="{{$feed_url}}" />
-<input type="hidden" name="feedtitle" value="{{$feed_title}}" />
+<input type="hidden" name="feedtitle" value="{{if $feed->get_title()}}{{$feed->get_title()}}{{else}}{{$feed_url}}{{/if}}" />
 Would you like to add the feed? <input type="submit" value="Yes" />
 </form>
 <br />
