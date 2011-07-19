@@ -83,7 +83,7 @@ class Fetch {
             $data = $feeds_data[$n];
             $info = $feeds_parse[$n];
             // If we got an error back from Curl
-            if($data['error']) {
+            if(isset($data['error'])) {
                 // Should be logged
             // If the feed has been retrieved with content, we should save it
             } elseif($data['data'] != NULL) {
