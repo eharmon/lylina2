@@ -65,7 +65,19 @@ class Admin {
     }
 
     function main($render) {
-        $feeds = $this->db->GetAll('SELECT *, (SELECT COUNT(*) FROM lylina_items WHERE lylina_items.feed_id = lylina_feeds.id) AS itemcount FROM lylina_feeds ORDER BY name');
+        if($this->auth->check()) {
+            $feeds = $this->db->GetAll(
+                'SELECT *,
+                        (SELECT COUNT(*) FROM lylina_items WHERE lylina_items.feed_id = lylina_feeds.id) AS itemcount
+                 FROM lylina_feeds
+                 INNER JOIN (lylina_userfeeds)
+                    ON (lylina_feeds.id = lylina_userfeeds.feed_id)
+                 WHERE lylina_userfeeds.user_id = ?
+                 ORDER BY lylina_feeds.name',
+                 array($this->auth->getUserId()));
+        } else {
+            $feeds = $this->db->GetAll('SELECT *, (SELECT COUNT(*) FROM lylina_items WHERE lylina_items.feed_id = lylina_feeds.id) AS itemcount FROM lylina_feeds ORDER BY name');
+        }
         $render->assign('feeds', $feeds);
         $render->assign('title', 'Preferences');
         $render->display('preferences.tpl');
@@ -87,6 +99,7 @@ class Admin {
         $render->assign('title', 'Adding Feed');
         $render->display('feed_search.tpl');
     }
+
     function doadd($render) {
         $feed = $_REQUEST['feedurl'];
         $title = $_REQUEST['feedtitle'];
