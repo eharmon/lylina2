@@ -48,7 +48,7 @@ class Items {
         $where_clause = "WHERE ";
 
         if($pivot > 0) {
-            $where_clause .= "lylina_items.id < ? 
+            $where_clause .= "lylina_items.dt < (select dt from lylina_items where id = ?)
                               AND lylina_items.id > ?";
             $args[] = $pivot;
             $args[] = $newest;
@@ -71,7 +71,7 @@ class Items {
         // Assemble final query
         $query = "$select_clause $from_clause $where_clause $suffix";
         //error_log($query);
-        //error_log(implode($args));
+        //error_log(implode(", ", $args));
         $items = $this->db->GetAll($query, $args);
 
         // Only calculate newest if pivot is not set
