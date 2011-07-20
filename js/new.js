@@ -401,9 +401,11 @@ $(document).ready(function() {
 var new_items = 0;
 var fetch = 1;
 var fetchOlder = 1;
+var checkNew = true;
 
 function fetch_feeds() {
-    if(fetch) {
+    if(checkNew && fetch) {
+        checkNew = false;
         $.ajax({
             type: "POST",
             url: "index.php",
@@ -417,11 +419,18 @@ function fetch_feeds() {
                     if(new_items > 0 && show_updates) {
                         $("#message").html('<b>Get new items (' + new_items + ')</b>');
                         document.title = "[" + new_items + "] " + title;
-                        if(new_items != old_items) {
+                        // Check to see if #navigation already has any pending animations
+                        // to prevent a bunch of highlights playing when the page has come
+                        // into focus after being in the background for awhile.
+                        // See: http://api.jquery.com/animate/ Additional Notes section
+                        if(new_items != old_items && $("#navigation").queue().length == 0) {
                             $("#navigation").effect("highlight", {}, 2000);
                         }
                     }
                 }
+            },
+            complete: function() {
+                checkNew = true;
             }
         });
     }
