@@ -27,13 +27,13 @@ class Items {
                                  lylina_items.title, 
                                  lylina_items.body, 
                                  UNIX_TIMESTAMP(lylina_items.dt) AS timestamp, 
-                                 lylina_feeds.url AS feed_url, 
-                                 lylina_feeds.name AS feed_name";
+                                 lylina_feeds.url AS feed_url";
 
         if($this->auth->check()) {
-            $select_clause .= ", COALESCE(lylina_vieweditems.viewed,0) AS viewed";
+            $select_clause .= ", lylina_userfeeds.feed_name AS feed_name,
+                                 COALESCE(lylina_vieweditems.viewed,0) AS viewed";
         } else {
-            $select_clause .= ", lylina_items.viewed";
+            $select_clause .= ", lylina_feeds.name AS feed_name, lylina_items.viewed";
         }
 
         // Build from and join

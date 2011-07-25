@@ -65,19 +65,15 @@ class Admin {
     }
 
     function main($render) {
-        if($this->auth->check()) {
-            $feeds = $this->db->GetAll(
-                'SELECT *,
-                        (SELECT COUNT(*) FROM lylina_items WHERE lylina_items.feed_id = lylina_feeds.id) AS itemcount
-                 FROM lylina_feeds
-                 INNER JOIN (lylina_userfeeds)
-                    ON (lylina_feeds.id = lylina_userfeeds.feed_id)
-                 WHERE lylina_userfeeds.user_id = ?
-                 ORDER BY lylina_feeds.name',
-                 array($this->auth->getUserId()));
-        } else {
-            $feeds = $this->db->GetAll('SELECT *, (SELECT COUNT(*) FROM lylina_items WHERE lylina_items.feed_id = lylina_feeds.id) AS itemcount FROM lylina_feeds ORDER BY name');
-        }
+        $feeds = $this->db->GetAll(
+            'SELECT id, url, favicon_url, lylina_userfeeds.feed_name AS name,
+                    (SELECT COUNT(*) FROM lylina_items WHERE lylina_items.feed_id = lylina_feeds.id) AS itemcount
+             FROM lylina_feeds
+             INNER JOIN (lylina_userfeeds)
+                ON (lylina_feeds.id = lylina_userfeeds.feed_id)
+             WHERE lylina_userfeeds.user_id = ?
+             ORDER BY lylina_feeds.name',
+             array($this->auth->getUserId()));
         $render->assign('feeds', $feeds);
         $render->assign('title', 'Preferences');
         $render->display('preferences.tpl');
@@ -92,6 +88,20 @@ class Admin {
         $pie->set_feed_url($url);
         $pie->init();
         $feed_url = $pie->feed_url;
+        $feed_title = $pie->get_title();
+
+        // Save feed to insert into session variables for later insertion into db
+        // only do this if we found items at the given url. This way we won't
+        // insert broken urls in doadd(). Also prevents inserting a new feed
+        // that never gets subscribed to in the following page.
+        if(count($pie->get_items()) > 0) {
+            $_SESSION['new_feed_url'] = $feed_url;
+            $_SESSION['new_feed_name'] = $feed_title;
+        } else {
+            $_SESSION['new_feed_url'] = NULL;
+            $_SESSION['new_feed_name'] = NULL;
+        }
+
         $render->assign('url', $url);
         $render->assign('feed_url', $feed_url);
         $render->assign('items', array_slice($pie->get_items(), 0, 5));
@@ -103,7 +113,20 @@ class Admin {
     function doadd($render) {
         $feed = $_REQUEST['feedurl'];
         $title = $_REQUEST['feedtitle'];
-        $this->db->EXECUTE('INSERT IGNORE INTO lylina_feeds (url, name) VALUES(?, ?)', array($feed, $title));
+
+        if(isset($feed, $title, $_SESSION['new_feed_url'], $_SESSION['new_feed_name'])) {
+            // Insert into lylina_feeds values obtained directly from simplepie
+            $this->db->Execute('INSERT IGNORE INTO lylina_feeds (url, name) VALUES(?, ?)',
+                                array($_SESSION['new_feed_url'], $_SESSION['new_feed_name']));
+            // Use the user supplied name for lylina_userfeeds
+            $this->db->Execute('INSERT IGNORE INTO lylina_userfeeds (feed_id, user_id, feed_name)
+                                VALUES ((select id from lylina_feeds where url = ?), ?, ?)',
+                                array($feed, $this->auth->getUserId(), $title));
+        }
+
+        // Remove stored feed values
+        $_SESSION['new_feed_url'] = NULL;
+        $_SESSION['new_feed_name'] = NULL;
         
         // Immediately fetch so the feed items appear
         $fetch = new Fetch($this->db);
@@ -113,13 +136,41 @@ class Admin {
     }
 
     function delete($render) {
-        $confirm = $_REQUEST['confirm'];
+        $confirm = isset($_REQUEST['confirm']) ? $_REQUEST['confirm'] : false;
         $id = $_REQUEST['id'];
         if($confirm) {
-            $this->db->Execute('DELETE lylina_feeds, lylina_items FROM lylina_feeds LEFT JOIN lylina_items ON lylina_feeds.id = lylina_items.feed_id WHERE lylina_feeds.id = ?', array($id));
+            $user_id = $this->auth->getUserId();
+            // Delete the mapping to this feed for this user
+            // Also deleted the viewed items record for this feed, user pair
+            $this->db->Execute('DELETE lylina_userfeeds, lylina_vieweditems
+                                FROM lylina_userfeeds
+                                LEFT JOIN lylina_items ON lylina_userfeeds.feed_id = lylina_items.feed_id
+                                LEFT JOIN lylina_vieweditems ON lylina_items.id = lylina_vieweditems.item_id
+                                                             AND lylina_userfeeds.user_id = lylina_vieweditems.user_id
+                                WHERE lylina_userfeeds.feed_id = ? AND lylina_userfeeds.user_id = ?',
+                                array($id, $user_id));
+            // Delete the feed and all its items if no one is subscribed to it anymore
+            $this->db->Execute('DELETE lylina_feeds, lylina_items
+                                FROM lylina_feeds
+                                LEFT JOIN lylina_items ON lylina_feeds.id = lylina_items.feed_id
+                                LEFT JOIN lylina_userfeeds ON lylina_feeds.id = lylina_userfeeds.feed_id
+                                WHERE lylina_feeds.id = ? AND lylina_userfeeds.user_id IS NULL',
+                                array($id));
+
             header('Location: admin');
         } else {
-            $feed = $this->db->GetAll('SELECT *, (SELECT COUNT(*) FROM lylina_items WHERE lylina_items.feed_id = lylina_feeds.id) AS itemcount FROM lylina_feeds WHERE lylina_feeds.id = ?', array($_REQUEST['id']));
+            $feed = $this->db->GetAll('SELECT id,
+                                              lylina_userfeeds.feed_name AS name,
+                                              (SELECT COUNT(*)
+                                                FROM lylina_items
+                                                WHERE lylina_items.feed_id = lylina_feeds.id)
+                                              AS itemcount
+                                       FROM lylina_feeds
+                                        INNER JOIN (lylina_userfeeds)
+                                            ON (lylina_feeds.id = lylina_userfeeds.feed_id
+                                                AND lylina_userfeeds.user_id = ?)
+                                       WHERE lylina_feeds.id = ?',
+                                       array($this->auth->getUserId(), $id));
             $render->assign('feed', $feed[0]);
             $render->assign('title', 'Confirm Delete');
             $render->display('confirm_delete.tpl');
@@ -127,25 +178,26 @@ class Admin {
     }
 
     function rename($render) {
-        $confirm = $_REQUEST['confirm'];
-        $name = $_REQUEST['name'];
+        $confirm = isset($_REQUEST['confirm']) ? $_REQUEST['confirm'] : false;
+        $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $id = $_REQUEST['id'];
         if($confirm) {
-            $this->db->Execute('UPDATE lylina_feeds SET name=? WHERE id=?', array($name, $id));
+            $this->db->Execute('UPDATE lylina_userfeeds SET feed_name=? WHERE feed_id=?', array($name, $id));
             header('Location: admin');
         } else {
-            $feed = $this->db->GetAll('SELECT * FROM lylina_feeds WHERE id=?', array($id));
-            $render->assign('feed', $feed[0]);
+            $feed = $this->db->GetRow('SELECT feed_id AS id, feed_name AS name FROM lylina_userfeeds WHERE feed_id=?', array($id));
+            $render->assign('feed', $feed);
             $render->assign('title', 'Rename Feed');
             $render->display('rename_feed.tpl');
         }
     }
     function passwd($render) {
-        $old_pass = $_REQUEST['old_pass'];
-        $new_pass = $_REQUEST['new_pass'];
-        $config = new Config();
-        if($this->auth->validate($old_pass)) {
-            $config->set('password', $this->auth->hash($new_pass));
+        $old_pass = isset($_REQUEST['old_pass']) ? $_REQUEST['old_pass'] : '';
+        $new_pass = isset($_REQUEST['new_pass']) ? $_REQUEST['new_pass'] : '';
+
+        if($this->auth->validate($this->auth->getUserName(), $old_pass) && strlen($new_pass) > 0) {
+            $this->db->Execute('UPDATE lylina_users SET pass=? WHERE id=?',
+                                array($this->auth->hash($new_pass), $this->auth->getUserId()));
             $this->auth->logout();
             $render->assign('auth', false);
             $render->assign('title', 'Password changed');

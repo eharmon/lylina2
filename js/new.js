@@ -219,11 +219,17 @@ function showOlderItems() {
     fetchOlder = 0;
     $("#show-older-button").html("Loading...");
     // Find the oldest id on the page; could maybe be done more efficiently
-    var oldest_id = Number.MAX_VALUE;
+    var oldest_dt = Number.MAX_VALUE;
+    var oldest_id = 0;
     $("#main").find(".item").each(function() {
-        var cur = parseInt($(this).attr("id").split(":")[0]);
-        if(cur < oldest_id) {
-            oldest_id = cur;
+        var idAttr = $(this).attr("id").split(":");
+        var cur_id = parseInt(idAttr[0]);
+        var cur_dt = parseInt(idAttr[1]);
+
+        // Check to see if current item is older
+        if(cur_dt < oldest_dt) {
+            oldest_dt = cur_dt;
+            oldest_id = cur_id
         }
     });
 
