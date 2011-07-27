@@ -85,6 +85,7 @@ class Fetch {
             // If we got an error back from Curl
             if(isset($data['error']) && $data['error'] > 0) {
                 // Should be logged
+                error_log("Curl error: " . $data['error']);
             // If the feed has been retrieved with content, we should save it
             } elseif($data['data'] != NULL) {
                 file_put_contents($info['cache_path'], $data['data']);
