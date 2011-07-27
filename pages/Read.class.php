@@ -20,11 +20,10 @@ class Read {
     function render() {
         $item_id = $_REQUEST['id'];
 
+        // Only mark items read if user is authenticated
         if($this->auth->check()) {
             $this->db->Execute('INSERT INTO lylina_vieweditems (user_id, item_id, viewed) VALUES(?, ?, 1)',
                                array($this->auth->getUserId(), $item_id));
-        } else {
-            $this->db->Execute('UPDATE lylina_items SET viewed = 1 WHERE id = ?', $item_id);
         }
     }
 }

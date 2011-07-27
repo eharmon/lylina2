@@ -33,7 +33,7 @@ class Items {
             $select_clause .= ", lylina_userfeeds.feed_name AS feed_name,
                                  COALESCE(lylina_vieweditems.viewed,0) AS viewed";
         } else {
-            $select_clause .= ", lylina_feeds.name AS feed_name, lylina_items.viewed";
+            $select_clause .= ", lylina_feeds.name AS feed_name, 0 AS viewed";
         }
 
         // Build from and join
