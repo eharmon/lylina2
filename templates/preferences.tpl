@@ -18,4 +18,5 @@ Website or Feed URL: <input type="text" name="url" />
 	<li><img src="cache/{{md5($feed.url)}}.ico" width="16" height="16" alt="" /> {{$feed.name}} ({{$feed.itemcount}} items)<span class="controls"><a href="admin?op=delete&id={{$feed.id}}">Delete</a> &middot; <a href="admin?op=rename&id={{$feed.id}}">Rename</a></li>
 {{/foreach}}
 </ul>
+</div>
 {{include file='foot.tpl'}}
