@@ -30,5 +30,3 @@ class Render extends Smarty {
         $this->right_delimiter = '}}';
     }
 }
-
-?>
