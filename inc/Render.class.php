@@ -7,8 +7,6 @@
 
 require_once('lib/smarty/libs/Smarty.class.php');
 
-set_include_path(get_include_path() . PATH_SEPARATOR . '/home/eharmon/sites/c63.be/lylina2/lib/smarty/libs');
-
 // This class supports display through Smarty
 class Render extends Smarty {
     function __construct() {
@@ -32,3 +30,5 @@ class Render extends Smarty {
         $this->right_delimiter = '}}';
     }
 }
+
+?>
