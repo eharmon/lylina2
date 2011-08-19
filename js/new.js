@@ -218,20 +218,10 @@ function mergeNewItems(newItems) {
 function showOlderItems() {
     fetchOlder = 0;
     $("#show-older-button").html("Loading...");
-    // Find the oldest id on the page; could maybe be done more efficiently
-    var oldest_dt = Number.MAX_VALUE;
-    var oldest_id = 0;
-    $("#main").find(".item").each(function() {
-        var idAttr = $(this).attr("id").split(":");
-        var cur_id = parseInt(idAttr[0]);
-        var cur_dt = parseInt(idAttr[1]);
 
-        // Check to see if current item is older
-        if(cur_dt < oldest_dt) {
-            oldest_dt = cur_dt;
-            oldest_id = cur_id
-        }
-    });
+    // Just get the last item on the page. It should be the oldest
+    var idAttr = $("#main").find(".item").last().attr("id").split(":");
+    var oldest_id = parseInt(idAttr[0]);
 
     // Load dummy div with new items and merge them in on success
     $("<div/>").load(
