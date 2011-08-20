@@ -11,7 +11,7 @@ at {{$feed->get_title()}}:<br />
 {{if $items}}
 <ul class="propertylist">
 {{foreach from=$items item=item}}
-	<li><img src="{{$feed->get_favicon()}}" /> {{$item->get_title()}}</li>
+	<li><img src="{{$feed->get_favicon()}}" class="icon" width="16" height="16" /> {{$item->get_title()}}</li>
 {{/foreach}}
 </ul>
 <form method="post" action="admin?op=doadd">
