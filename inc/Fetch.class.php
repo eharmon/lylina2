@@ -54,10 +54,10 @@ class Fetch {
             $cache_path = 'cache/' . md5($feed['url']) . '.xml';
             if(file_exists($cache_path)) {
                 $mod_time = @filemtime($cache_path);
-                $filesize = @filesize($cache_path);
+                $filemd5 = @md5_file($cache_path);
             } else {
                 $mod_time = -1;
-                $filesize = 0;
+                $filemd5 = 0;
             }
             // If our cache is older than 5 minutes, or doesn't exist, fetch new feeds
             if(time() - $mod_time > 300 || $mod_time == -1) {
@@ -68,7 +68,7 @@ class Fetch {
                         $feeds_parse[$feeds_count]['name'] = $feed['name'];
                 $feeds_parse[$feeds_count]['icon'] = $feed['favicon_url'];
                         $feeds_parse[$feeds_count]['cache_path'] = $cache_path;
-                $feeds_parse[$feeds_count]['filesize'] = $filesize;
+                $feeds_parse[$feeds_count]['filemd5'] = $filemd5;
                 $feeds_parse[$feeds_count]['mod'] = $mod_time;
                 $feeds_count++;
             }
@@ -101,7 +101,7 @@ class Fetch {
         for($n = 0; $n < count($feeds_parse); $n++) {
             $data = $feeds_data[$n];
             $info = $feeds_parse[$n];
-            if($data['data'] != NULL && filesize($info['cache_path']) != $info['filesize']) {
+            if($data['data'] != NULL && md5_file($info['cache_path']) != $info['filemd5']) {
                 $pie->set_feed_url($info['cache_path']);
                 $pie->init();
                 // If SimplePie finds a new RSS URL, let's update our cache
