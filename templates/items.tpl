@@ -9,7 +9,7 @@
             <h1>{{$item.date}}</h1>
     {{/if}}
             <div class="item{{if $item.viewed}} read{{/if}}{{if $item.new}} new{{/if}}" id="{{$item.id}}:{{$item.timestamp}}">
-                <img src="cache/{{md5($item.feed_url)}}.ico" width="16" height="16" class="icon" alt="" />
+                <img src="cache/{{md5($item.feed_url)}}.ico" class="icon" alt="" />
                 <span class="time">{{$item.timestamp|date_format:"%H:%M"}}</span>
                 <span class="title" id="TITLE{{$item.id}}">{{$item.title}}</span>
                 <span class="source">
