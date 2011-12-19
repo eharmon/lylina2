@@ -4,6 +4,7 @@
 // Copyright (C) 2004-2005 Panayotis Vryonis
 // Copyright (C) 2005 Andreas Gohr
 // Copyright (C) 2006-2010 Eric Harmon
+// Copyright (C) 2011 Nathan Watson
 
 // This class handles fetching feeds for us
 class Fetch {
@@ -108,6 +109,13 @@ class Fetch {
                 if($pie->feed_url != $info['url']) {
                     $this->db->Execute('UPDATE lylina_items SET url=?, fallback_url=? WHERE id=?', array($pie->feed_url, $info['url'], $info['id']));
                 }
+                // Update the real feed title - users who already have the feed added won't see the change
+                // This is to prevent garbage names from OPML imports, which eventually won't be a problem,
+                // but it's probably a good idea to keep the global title current anyway
+                if($pie->get_title() != $info['name']) {
+                   $this->db->Execute('UPDATE lylina_feeds SET name=? WHERE id=?', array($pie->get_title(), $info['id']));
+                }
+
                 // TODO: Favicon handling isn't real pretty
                 // If we have a new favicon URL, no cache, or stale cache, update cache
                 if(!file_exists('cache/' . md5($info['url']) . '.ico') || time() - filemtime('cache/' . md5($info['url']) . '.ico') > 7*24*60*60 || $pie->get_favicon() != $info['icon']) {

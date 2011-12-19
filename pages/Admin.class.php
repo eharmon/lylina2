@@ -5,6 +5,7 @@
 // Copyright (C) 2005 Andreas Gohr
 // Copyright (C) 2006-2010 Eric Harmon
 // Copyright (C) 2011 Robert Leith
+// Copyright (C) 2011 Nathan Watson
 
 // Handle the admin interface
 class Admin {
@@ -133,6 +134,67 @@ class Admin {
         $fetch->get();
 
         header('Location: admin');
+    }
+
+    function import($render) {
+        $xml = new XMLReader();
+        $xml->open($_FILES['opml']['tmp_name']);
+        while($xml->read()) {
+                if($xml->nodeType == XMLReader::ELEMENT && $xml->localName == 'outline' && $xml->getAttribute('type') == 'rss') {
+                        $feed = $xml->getAttribute('xmlUrl');
+                        $title = $xml->getAttribute('text');
+
+                        $this->db->Execute('INSERT IGNORE INTO lylina_feeds (url, name) VALUES (?, ?)',
+                                            array($feed, $title));
+                        $this->db->Execute('INSERT IGNORE INTO lylina_userfeeds (feed_id, user_id, feed_name)
+                                            VALUES ((select id from lylina_feeds where url = ?), ?, ?)',
+                                            array($feed, $this->auth->getUserId(), $title));
+                }
+        }
+
+        $fetch = new Fetch($this->db);
+        $fetch->get();
+
+        header('Location: admin');
+    }
+
+    function export($render) {
+        $feeds = $this->db->GetAll(
+                'SELECT url, lylina_userfeeds.feed_name AS name
+                 FROM lylina_feeds
+                 INNER JOIN (lylina_userfeeds)
+                        ON (lylina_feeds.id = lylina_userfeeds.feed_id)
+                 WHERE lylina_userfeeds.user_id = ?',
+                 array($this->auth->getUserId()));
+
+        $xml = new XMLWriter();
+        $xml->openMemory();
+
+        $xml->startDocument('1.0', 'UTF-8');
+        $xml->startElement('opml');
+        $xml->writeAttribute('version', '1.0');
+        $xml->startElement('head');
+        $xml->writeElement('title', 'lylina feeds');
+        $xml->writeElement('ownerName', $this->auth->getUserName());
+        $xml->endElement();
+
+        $xml->startElement('body');
+        foreach($feeds as $feed) {
+                $xml->startElement('outline');
+                $xml->writeAttribute('text', $feed['name']);
+                $xml->writeAttribute('xmlUrl', $feed['url']);
+                $xml->writeAttribute('type', 'rss');
+                $xml->endElement();
+        }
+        $xml->endElement();
+
+        $xml->endElement();
+        $xml->endDocument();
+        
+        header('Content-disposition: attachment; filename=lylina_feeds.opml');
+        header('Content-type: text/xml');
+        $render->assign('output', $xml->outputMemory());
+        $render->display('export.tpl');
     }
 
     function delete($render) {

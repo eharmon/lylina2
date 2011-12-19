@@ -12,7 +12,14 @@ Website or Feed URL: <input type="text" name="url" />
 <input type="submit" value="Add" />
 </form>
 
+<h2>Import Feeds</h2>
+<form enctype="multipart/form-data" method="post" action="admin?op=import">
+OPML file: <input type="file" name="opml" />
+<input type="submit" value="Import" />
+</form>
+
 <h2>Manage Feeds</h2>
+<p><a href="admin?op=export">Export Feeds</a></p>
 <ul class="propertylist">
 {{foreach from=$feeds item=feed}}
 	<li><img src="cache/{{md5($feed.url)}}.ico" class="icon" alt="" /> {{$feed.name}} ({{$feed.itemcount}} items)<span class="controls"><a href="admin?op=delete&id={{$feed.id}}">Delete</a> &middot; <a href="admin?op=rename&id={{$feed.id}}">Rename</a></li>
