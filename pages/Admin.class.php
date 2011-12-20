@@ -192,7 +192,7 @@ class Admin {
         $xml->endDocument();
         
         header('Content-disposition: attachment; filename=lylina_feeds.opml');
-        header('Content-type: text/xml');
+        header('Content-type: text/x-opml');
         $render->assign('output', $xml->outputMemory());
         $render->display('export.tpl');
     }
